@@ -4,6 +4,18 @@ Barbell web app using React as UI Framework, React-Router and Redux to control s
 supports next gen JavaScript features using babel and webpack as bundler.
 Hot module replacement for development.
 
+## Development
+
+Install dependencies
+```shell
+npm install
+```
+
+To start dev server with hot module replacement:
+```shell
+npm start
+```
+
 ## Useful links
 
 - [React](https://facebook.github.io/react/docs/tutorial.html)
