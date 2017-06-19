@@ -29,10 +29,7 @@
             "error",
             "single"
         ],
-        "semi": [
-            "error",
-            "always"
-        ],
+        "semi": 0,
         "no-console": 0
     }
 }

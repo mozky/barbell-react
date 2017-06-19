@@ -20,6 +20,7 @@ module.exports = {
     },
     plugins: [
         new HtmlWebpackPlugin({
+          favicon: 'app/images/favicon.ico',
           template: 'app/index.tpl.html',
           inject: 'body',
           filename: 'index.html'

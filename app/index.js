@@ -1,13 +1,20 @@
+import 'babel-polyfill';
 import React from 'react';
 import { render } from 'react-dom';
 import Root from './containers/Root';
-import { configureStore, history } from './store/configureStore';
+import { configureStore, history, sagaMW} from './store/configureStore';
+import Sagas from './sagas';
 import { AppContainer } from 'react-hot-loader';
 
-const store = configureStore();
+const store = configureStore({
+    isLoggedIn: false,
+    user: {
+        username: 'demo',
+        isAdmin: false
+    }
+});
 
-console.log('History', history);
-console.log('Store', store);
+sagaMW.run(Sagas);
 
 render(
     <AppContainer>
