@@ -7,9 +7,16 @@ export function filterTable(filter) {
     };
 }
 
-export function loginUser(user) {
+export function loginUser(request) {
     return {
         type: types.USER_LOGIN,
-        payload: { user }
+        request
     };
+}
+
+export function formChange(change) {
+    return {
+        type: types['LOGIN_FORM_'  + change.field + '_CHANGE'],
+        value: change.value
+    }
 }

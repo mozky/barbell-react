@@ -11,8 +11,24 @@ const filter = (state = '', action) => {
     }
 };
 
+const loginForm = (state = '', action) => {
+    switch (action.type) {
+    case types.LOGIN_FORM_USERNAME_CHANGE:
+        return Object.assign({}, state, {
+            username: action.value
+        })
+    case types.LOGIN_FORM_PASSWORD_CHANGE:
+        return Object.assign({}, state, {
+            password: action.value
+        })
+    default:
+        return state;
+    }
+};
+
 const rootReducer = combineReducers({
     filter,
+    loginForm,
     routing,
     isLoggedIn: (state = {}) => state,
     user: (state = {}) => state

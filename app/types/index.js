@@ -1,5 +1,8 @@
 // Reducers types
 export const FILTER = 'FILTER';
+export const LOGIN_FORM_USERNAME_CHANGE = 'LOGIN_FORM_USERNAME_CHANGE';
+export const LOGIN_FORM_PASSWORD_CHANGE = 'LOGIN_FORM_PASSWORD_CHANGE';
+
 
 // Sagas types
 export const USER_LOGIN = 'USER_LOGIN';

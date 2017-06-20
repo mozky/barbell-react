@@ -1,18 +1,13 @@
-// import { call, put, takeLatest } from 'redux-saga/effects'
-import { put, takeLatest, fork } from 'redux-saga/effects';
+import { call, put, takeLatest, fork } from 'redux-saga/effects';
 import * as types from '../types';
-// import Api from '...'
+import Api from '../api';
 
-// worker Saga: will be fired on USER_FETCH_REQUESTED actions
 function* loginUser(action) {
     try {
-        // Here we call the api to do the login async
-        // const user = yield call(Api.fetchUser, action.payload.userId);
-        console.log('TODO: API login call...')
-        const user = action.payload.user;
+        const user = yield call(Api.login, action.request);
         yield put({type: types.USER_LOGIN_SUCCEEDED, user: user});
     } catch (e) {
-        yield put({type: types.USER_LOGIN_FAILED, message: e.message});
+        yield put({type: types.USER_LOGIN_FAILED, status: e});
     }
 }
 
