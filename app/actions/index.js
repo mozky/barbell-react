@@ -20,3 +20,9 @@ export function formChange(change) {
         value: change.value
     }
 }
+
+export function logout() {
+    return {
+        type: types.LOGOUT
+    }
+}

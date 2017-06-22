@@ -1,4 +1,5 @@
 import { call, put, takeLatest, fork } from 'redux-saga/effects';
+// import { push } from 'react-router-redux'
 import * as types from '../types';
 import Api from '../api';
 
@@ -6,6 +7,8 @@ function* loginUser(action) {
     try {
         const user = yield call(Api.login, action.request);
         yield put({type: types.USER_LOGIN_SUCCEEDED, user: user});
+        // NOT WORKING, MUST FIND A WAY TO CHANGE ROUTES
+        // yield push('/');
     } catch (e) {
         yield put({type: types.USER_LOGIN_FAILED, status: e});
     }

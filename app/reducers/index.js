@@ -26,12 +26,32 @@ const loginForm = (state = '', action) => {
     }
 };
 
+const isLoggedIn = (state = '', action) => {
+    switch(action.type) {
+    case types.USER_LOGIN_SUCCEEDED:
+        return true
+    default:
+        return state
+    }
+}
+
+const user = (state = '', action) => {
+    switch(action.type) {
+    case types.USER_LOGIN_SUCCEEDED:
+        return Object.assign({}, state, {
+            username: action.user
+        })
+    default:
+        return state
+    }
+}
+
 const rootReducer = combineReducers({
     filter,
     loginForm,
+    isLoggedIn,
     routing,
-    isLoggedIn: (state = {}) => state,
-    user: (state = {}) => state
+    user
 });
 
 export default rootReducer;
