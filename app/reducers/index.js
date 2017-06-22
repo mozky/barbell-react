@@ -30,6 +30,8 @@ const isLoggedIn = (state = '', action) => {
     switch(action.type) {
     case types.USER_LOGIN_SUCCEEDED:
         return true
+    case types.LOGOUT:
+        return false
     default:
         return state
     }
