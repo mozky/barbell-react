@@ -1,18 +1,20 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import * as types from './types';
+import * as types from '../../types';
 
-class Login extends Component {
+class Register extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
       username: '',
-      password: ''
+      password: '',
+      email: '',
     };
 
     this.handleUsernameChange = this.handleUsernameChange.bind(this);
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
+    this.handleEmailChange = this.handleEmailChange.bind(this);
   }
 
   handleUsernameChange(event) {
@@ -25,24 +27,29 @@ class Login extends Component {
     this.setState({password: event.target.value});
   }
 
+  handleEmailChange(event) {
+    event.preventDefault();
+    this.setState({email: event.target.value});
+  }
+
   render() {
     return (
-      <form className="login-form">
+      <form className="register-form">
         <input type="text" placeholder="username" value={this.state.username} onChange={this.handleUsernameChange} />
-
         <input type="password" placeholder="password" value={this.state.password} onChange={this.handlePasswordChange}/>
+        <input type="email" placeholder="email address" value={this.state.email} onChange={this.handleEmailChange}/>
         <button type="button" onClick={() => this.props.handleSubmit(this.state)}>
-          Login
+          Register
         </button>
-        <p className="message">Not registered? <a title="Click to go to registration page" onClick={(e) => this.props.goTo(types.REGISTER, e)}>Create an account</a></p>
+        <p className="message">Already registered? <a title="Click to go login page" onClick={(e) => this.props.goTo(types.LOGIN, e)}>Sign In</a></p>
       </form>
     );
   }
 }
 
-Login.propTypes = {
+Register.propTypes = {
   handleSubmit: PropTypes.func,
   goTo: PropTypes.func,
 };
 
-export default Login;
+export default Register;

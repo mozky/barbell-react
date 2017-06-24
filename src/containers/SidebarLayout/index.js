@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import './MainArea.css'
+import './SidebarLayout.css'
 
-class MainArea extends Component {
+class SidebarLayout extends Component {
 
   render() {
     return (
@@ -20,4 +20,4 @@ class MainArea extends Component {
 
 }
 
-export default MainArea
+export default SidebarLayout
