@@ -31,7 +31,7 @@ class Login extends Component {
         <input type="text" placeholder="username" value={this.state.username} onChange={this.handleUsernameChange} />
 
         <input type="password" placeholder="password" value={this.state.password} onChange={this.handlePasswordChange}/>
-        <button onClick={() => this.props.handleSubmit(this.state)}>
+        <button type="button" onClick={() => this.props.handleSubmit(this.state)}>
           Login
         </button>
         <p className="message">Not registered? <a title="Click to go to registration page" onClick={(e) => this.props.goTo(types.REGISTER, e)}>Create an account</a></p>

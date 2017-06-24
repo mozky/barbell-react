@@ -13,6 +13,7 @@ class App extends Component {
   }
 
   loadApp () {
+    console.log('Loading app...');
     this.setState({isLoggedIn: true});
   }
 

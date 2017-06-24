@@ -6,7 +6,7 @@ function health() {
     return new Promise(function (resolve, reject) {
         fetch('http://localhost:10010/health')
             .then(res => {
-                if (res.status == 200) {
+                if (res.status === 200) {
                     resolve();
                 } else {
                     reject();
@@ -40,7 +40,7 @@ function login(request) {
                 console.log(res.ok);
                 console.log(res.status);
                 console.log(res.statusText);
-                if (res.status == 200) {
+                if (res.status === 200) {
                     resolve('TODO: Get response object from Barbell API');
                 } else {
                     reject(res.status);
