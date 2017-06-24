@@ -1,8 +1,9 @@
 language: node_js
 node_js:
-  - "node"
+- node
 cache:
   directories:
-    - "node_modules"
+  - node_modules
 notifications:
-  slack: mieldepollo:zG9mS9jKIq7qZFOoq5BgsIL1
+  slack:
+    secure: KVPYsioebc7PgkQe6JF+6kAsqJ53SlskTVQKStwNkaop17+XfvoEFeZBnCmJlDR4XJViNz9nXhw0LV9x7pbjgHMrHw7BokdJARjZYmGwGaIPRbWHm/V8m0JjaCzzDuOVSziz0JoN+g0mC2w9Drd8jDBLE1Mx8Nd7DhOc0EMTpm3KQMFLpYxV2r8ShKvwePyReua3UltGvwFKD9qyvLHugr8sXdQFwC5LQerUb5QFA8mvA50Xahl1Kd0O/6nO+rUMzck4MiDO+1c7JDYA5hvaha29HWVw3Cv8f7i017I2qjnQDPy5Yxh+DwTKPdHomU8K6x/hI7I2GZb1wDyniObDBCMKkLalZRwFCixxLPjUYAP2nMXFAU75gEvXX83xfKjPWLk1YYZSUBvBYqvuxa7ISU5p5Rur8enNnM2wpUHK4Yrah3KCzgt84eZIur47kGqMpdsFUItfZsBB9yNSpoSU4Mnk8OHc1r9/tr9Fw3HXf+KRxMh9HqDI1Uylz30Vqzvyv6sLf5GtqLZzIsxHfYdG6Be+ShxFnJCaM0GQovalHyFpbEp8PlWbdDuChDKbdDTGoXiPgjYvn8M/9fXfjGwYWJHaWGpIkFW0i49nkfftj1M+hB4vmmVOk1hi/7ZqJdI03ul8GXS0JPRFoHLBZocuXSWRT23SGJXniEu2kHdimJQ=
