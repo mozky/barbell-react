@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import logo from './logo.svg';
 import Login from './Login';
 import Register from './Register';
 import * as types from './types';
+import Api from './api';
 import './Authenticate.css';
 
 class Authenticate extends Component {
@@ -13,18 +15,22 @@ class Authenticate extends Component {
     this.handleRegister = this.handleRegister.bind(this);
     this.changeTab = this.changeTab.bind(this);
     this.state = {
-      activeTab: types.REGISTER
+      activeTab: types.LOGIN
     };
   }
 
-  handleLogin (e) {
-    e.preventDefault();
-    console.log('NYI: Handle Login')
+  handleLogin (values) {
+    console.log('NYI: Handle Login', values)
+    Api.login(values).then((response) => {
+      console.log('Response!', response)
+      this.props.loadApp()
+    }).catch((error) => {
+      console.log('Error!', error);
+    })
   }
 
-  handleRegister (e) {
-    e.preventDefault();
-    console.log('NYI: Handle Register');
+  handleRegister (values) {
+    console.log('NYI: Handle Register', values);
   }
 
   changeTab (newTab, e) {
@@ -61,5 +67,9 @@ class Authenticate extends Component {
     );
   }
 }
+
+Authenticate.propTypes = {
+  loadApp: PropTypes.func,
+};
 
 export default Authenticate;

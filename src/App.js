@@ -6,9 +6,14 @@ import './App.css';
 class App extends Component {
   constructor(props) {
     super(props);
+    this.loadApp = this.loadApp.bind(this);
     this.state = {
       isLoggedIn: false
     };
+  }
+
+  loadApp () {
+    this.setState({isLoggedIn: true});
   }
 
   render() {
@@ -27,7 +32,7 @@ class App extends Component {
       } else {
         return (
           <div className="App">
-            <Authenticate />
+            <Authenticate loadApp={this.loadApp}/>
           </div>
         )
       }
