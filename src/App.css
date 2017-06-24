@@ -1,7 +1,6 @@
 .App {
   text-align: center;
 }
-
 .App-logo {
   animation: App-logo-spin infinite 20s linear;
   height: 80px;
@@ -14,10 +13,6 @@
   color: white;
 }
 
-.App-intro {
-  font-size: large;
-}
-
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
@@ -25,4 +20,29 @@
 
 a {
   cursor:pointer
+}
+
+body {
+  background: #e1e2e1; /* fallback for old browsers */
+  background: -webkit-linear-gradient(right, #e1e2e1, #f4f4f4);
+  background: -moz-linear-gradient(right, #e1e2e1, #f4f4f4);
+  background: -o-linear-gradient(right, #e1e2e1, #f4f4f4);
+  background: linear-gradient(to left, #e1e2e1, #f4f4f4);
+  font-family: "Roboto", Helvetica, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.4;
+}
+
+p {color: #666;}
+
+.centered {
+    margin: 0 auto;
+    padding: 0 1em;
+}
+
+@media screen and (min-width: 70em) {
+    .centered {
+        max-width: 70em;
+    }
 }

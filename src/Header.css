@@ -1,0 +1,50 @@
+.centered {
+    margin: 0 auto;
+    padding: 0 1em;
+}
+
+@media screen and (min-width: 52em) {
+    .centered {
+        max-width: 52em;
+    }
+}
+
+
+.masthead {
+    background: #424242;
+  	box-shadow: 3px 3px 8px hsl(0, 0%, 70%);
+}
+
+.site-title {
+    margin: 0 0 1.3em;
+    padding: 1em 0;
+    font-size: 1em;
+    font-weight: 300;
+    text-align: center;
+    color: black;
+}
+
+@media screen and (min-width: 30em) {
+    .site-title {
+        font-size: 1em;
+    }
+}
+
+@media screen and (min-width: 50em) {
+    .site-title {
+        font-size: 1.2em;
+    }
+}
+
+.site-title a {
+    color: hsl(5, 45%, 95%);
+    text-decoration: none;
+}
+
+.site-title a:hover {
+    text-decoration: underline;
+}
+
+.site-title {
+	color: white;
+}

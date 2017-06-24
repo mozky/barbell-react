@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import Authenticate from './Authenticate';
-import logo from './logo.svg';
+import Header from './Header';
+import MainArea from './MainArea';
+import Footer from './Footer';
+import Card from './Card';
 import './App.css';
 
 class App extends Component {
@@ -8,7 +11,11 @@ class App extends Component {
     super(props);
     this.loadApp = this.loadApp.bind(this);
     this.state = {
-      isLoggedIn: false
+      isLoggedIn: false,
+      user: {
+        username: 'Moz',
+        isAdmin: false
+      }
     };
   }
 
@@ -21,13 +28,11 @@ class App extends Component {
       if (this.state.isLoggedIn) {
         return (
           <div className="App">
-            <div className="App-header">
-              <img src={logo} className="App-logo" alt="logo" />
-              <h2>Welcome to React</h2>
-            </div>
-            <p className="App-intro">
-              To get started, edit <code>src/App.js</code> and save to reload.
-            </p>
+            <Header user={this.state.user} />
+            <MainArea>
+              <Card />
+            </MainArea>
+            <Footer />
           </div>
         );
       } else {
