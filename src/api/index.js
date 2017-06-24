@@ -1,5 +1,7 @@
 import fetch from 'node-fetch';
 
+// CONTIENE LAS FUNCIONES QUE MAPEAN LOS DIFERENTES METODOS DE LA API
+
 function health() {
     return new Promise(function (resolve, reject) {
         fetch('http://localhost:10010/health')
@@ -21,7 +23,7 @@ function health() {
 
 function login(request) {
     return new Promise(function (resolve, reject) {
-        // TODO: Validate de fields? later...
+        // TODO: Validate the fields? later...
         const args = {
             'username': request.username,
             'password': request.password
