@@ -38,7 +38,7 @@ class Register extends Component {
         <input type="text" placeholder="username" value={this.state.username} onChange={this.handleUsernameChange} />
         <input type="password" placeholder="password" value={this.state.password} onChange={this.handlePasswordChange}/>
         <input type="email" placeholder="email address" value={this.state.email} onChange={this.handleEmailChange}/>
-        <button onClick={() => this.props.handleSubmit(this.state)}>
+        <button type="button" onClick={() => this.props.handleSubmit(this.state)}>
           Register
         </button>
         <p className="message">Already registered? <a title="Click to go login page" onClick={(e) => this.props.goTo(types.LOGIN, e)}>Sign In</a></p>
