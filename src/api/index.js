@@ -47,10 +47,39 @@ function login(request) {
                 }
             });
     });
+}
 
+function register(request) {
+    return new Promise(function (resolve, reject) {
+        // TODO: Validate the fields? later...
+        const args = {
+            'username': request.username,
+            'email': request.email,
+            'password': request.password
+        };
+
+        fetch('http://localhost:10010/user', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(args)
+        })
+            .then(res => {
+                console.log(res.ok);
+                console.log(res.status);
+                console.log(res.statusText);
+                if (res.status === 200) {
+                    resolve('TODO: Get response object from Barbell API');
+                } else {
+                    reject(res.status);
+                }
+            });
+    });
 }
 
 export default  {
     health,
-    login
+    login,
+    register,
 }

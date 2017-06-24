@@ -22,7 +22,7 @@ class Authenticate extends Component {
   handleLogin (values) {
     console.log('NYI: Handle Login', values)
     Api.login(values).then((response) => {
-      console.log('Response!', response)
+      console.log('Login response!', response)
       this.props.loadApp()
     }).catch((error) => {
       console.log('Error!', error);
@@ -31,6 +31,12 @@ class Authenticate extends Component {
 
   handleRegister (values) {
     console.log('NYI: Handle Register', values);
+    Api.register(values).then((response) => {
+      console.log('Register response!', response)
+      this.props.loadApp()
+    }).catch((error) => {
+      console.log('Error!', error);
+    })
   }
 
   changeTab (newTab, e) {
