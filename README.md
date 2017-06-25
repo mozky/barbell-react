@@ -1,4 +1,4 @@
-# Barbell-react
+# Barbell-react [![Build Status](https://travis-ci.org/mozky/barbell-react.svg?branch=master)](https://travis-ci.org/mozky/barbell-react)
 
 Barbell web app using React as UI Framework, supports next gen JavaScript features using babel and webpack as bundler.
 Hot module replacement for development.
