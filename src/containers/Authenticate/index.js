@@ -30,9 +30,8 @@ class Authenticate extends Component {
 
   handleRegister (values) {
     console.log('NYI: Handle Register', values);
-    Api.register(values).then((response) => {
-      console.log('Register response!', response)
-      this.props.loadApp()
+    Api.register(values).then((user) => {
+      this.props.loadApp(user)
     }).catch((error) => {
       console.log('Error!', error);
     })
