@@ -12,7 +12,10 @@ class App extends Component {
     super(props);
     this.loadApp = this.loadApp.bind(this);
 
-    const localToken = window.localStorage.getItem('API_TOKEN');
+    let localToken;
+    if (!window.localStorage)
+      localToken = window.localStorage.getItem('API_TOKEN');
+
     let userInfo = ValidateToken(localToken);
 
     this.state = {
