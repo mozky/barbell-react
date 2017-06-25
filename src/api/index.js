@@ -1,5 +1,5 @@
 import fetch from 'node-fetch';
-import jwt_decode from 'jwt-decode';
+import { ValidateToken } from '../helpers';
 
 const API_HOST = "http://localhost:10010/";
 
@@ -57,18 +57,16 @@ function login(request) {
           reject(res.message);
         }
 
-        try {
-          var decoded = jwt_decode(res.token);
-        } catch (e) {
-          reject(e);
+        // We validate the token and store it on browser's localStorage
+        let userInfo = ValidateToken(res.token);
+        if (userInfo) {
+          window.localStorage.setItem('API_TOKEN', res.token);
+          resolve(userInfo);
+        } else {
+          reject('error')
         }
-
-        // We store the token on browser's localStorage
-        window.localStorage.setItem('API_TOKEN', res.token);
-
-        // We resolve the user information from the API
-        resolve(decoded._doc);
       });
+
   });
 }
 
@@ -92,12 +90,27 @@ function register(request) {
         console.log(res.ok);
         console.log(res.status);
         console.log(res.statusText);
-        if (res.status === 200) {
-          resolve('TODO: Get response object from Barbell API');
+        if (res.status !== 200) {
+          reject(res.status)
+        }
+        return res.text();
+      })
+      .then(body => {
+        let res = JSON.parse(body);
+        if (!res.success) {
+          reject(res.message);
+        }
+
+        // We validate the token and store it on browser's localStorage
+        let userInfo = ValidateToken(res.token);
+        if (userInfo) {
+          window.localStorage.setItem('API_TOKEN', res.token);
+          resolve(userInfo);
         } else {
-          reject(res.status);
+          reject('error')
         }
       });
+
   });
 }
 
