@@ -1,4 +1,5 @@
 import fetch from 'node-fetch';
+import jwt_decode from 'jwt-decode';
 
 // CONTIENE LAS FUNCIONES QUE MAPEAN LOS DIFERENTES METODOS DE LA API
 
@@ -29,6 +30,7 @@ function login(request) {
             'password': request.password
         };
 
+<<<<<<< Updated upstream
         fetch('http://localhost:10010/login', {
             method: 'POST',
             headers: {
@@ -47,6 +49,43 @@ function login(request) {
                 }
             });
     });
+=======
+    fetch(API_HOST + 'login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(args)
+    })
+      .then(res => {
+        console.log(res.ok);
+        console.log(res.status);
+        console.log(res.statusText);
+        if (res.status !== 200) {
+          reject(res.status)
+        }
+        return res.text();
+      })
+      .then(body => {
+        let res = JSON.parse(body);
+        if (!res.success) {
+          reject(res.message);
+        }
+
+        // We store the token on browser's localStorage
+        window.localStorage.setItem('API_TOKEN', res.token);
+
+        try {
+          var decoded = jwt_decode(res.token);
+        } catch (e) {
+          reject(e);
+        }
+
+        // We resolve the user information from the API
+        resolve(decoded._doc);
+      });
+  });
+>>>>>>> Stashed changes
 }
 
 function register(request) {
