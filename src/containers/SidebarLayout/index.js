@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Sidebar from '../Sidebar';
 import './SidebarLayout.css'
 
 class SidebarLayout extends Component {
@@ -7,9 +8,7 @@ class SidebarLayout extends Component {
     return (
       <main className="centered">
         <div className="main-area">
-          <div id="side_bar">
-            <h4>TODO: Sidebar</h4>
-          </div>
+          <Sidebar />
           <div id="content">
             {this.props.children}
           </div>
