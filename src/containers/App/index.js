@@ -13,7 +13,7 @@ class App extends Component {
     this.loadApp = this.loadApp.bind(this);
 
     let localToken;
-    if (!window.localStorage)
+    if (window.localStorage)
       localToken = window.localStorage.getItem('API_TOKEN');
 
     let userInfo = ValidateToken(localToken);
