@@ -12,16 +12,16 @@ class App extends Component {
     this.loadApp = this.loadApp.bind(this);
     this.state = {
       isLoggedIn: false,
-      user: {
-        username: 'Moz',
-        isAdmin: false
-      }
+      user: 'null'
     };
   }
 
-  loadApp () {
+  loadApp (user) {
     console.log('Loading app...');
-    this.setState({isLoggedIn: true});
+    this.setState({
+      isLoggedIn: true,
+      user
+    });
   }
 
   render() {

@@ -1,4 +1,5 @@
 import fetch from 'node-fetch';
+import jwt_decode from 'jwt-decode';
 
 const API_HOST = "http://localhost:10010/";
 
@@ -55,8 +56,18 @@ function login(request) {
         if (!res.success) {
           reject(res.message);
         }
+
+        try {
+          var decoded = jwt_decode(res.token);
+        } catch (e) {
+          reject(e);
+        }
+
+        // We store the token on browser's localStorage
         window.localStorage.setItem('API_TOKEN', res.token);
-        resolve('TODO: Give back user info');
+
+        // We resolve the user information from the API
+        resolve(decoded._doc);
       });
   });
 }
