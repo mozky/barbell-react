@@ -11,6 +11,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.loadApp = this.loadApp.bind(this);
+    this.handleLogout = this.handleLogout.bind(this);
 
     let localToken;
     if (window.localStorage)
@@ -33,11 +34,21 @@ class App extends Component {
     });
   }
 
+  handleLogout () {
+
+    window.localStorage.removeItem('API_TOKEN');
+
+    this.setState({
+      isLoggedIn: false,
+      user: "null"
+    })
+  }
+
   render() {
       if (this.state && this.state.isLoggedIn) {
         return (
           <div className="App">
-            <Header user={this.state.user} />
+            <Header user={this.state.user} handleLogout={this.handleLogout} />
             <SidebarLayout>
               <Card />
             </SidebarLayout>

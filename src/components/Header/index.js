@@ -7,10 +7,14 @@ class Header extends Component {
   render() {
     return (
       <header className="masthead clear">
-        <div className="centered">
-          <div className="site-branding">
-            <h1 className="site-title">Barbell - Welcome {this.props.user.username}</h1>
-          </div>
+        <div className="navbar area">
+          <h1 className="brand">Barbell - Welcome {this.props.user.username}</h1>
+          <nav role="navigation" id="navigation" className="list">
+            <a className="item -link" onClick={() => this.props.handleLogout()}>Logout</a>
+          </nav>
+          <button data-collapse data-target="#navigation" className="toggle">
+            <span className="icon"></span>
+          </button>
         </div>
       </header>
     );
@@ -19,7 +23,8 @@ class Header extends Component {
 }
 
 Header.propTypes = {
-  user: PropTypes.object
+  user: PropTypes.object,
+  handleLogout: PropTypes.func
 };
 
 export default Header;
