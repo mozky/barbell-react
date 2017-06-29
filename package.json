@@ -21,10 +21,8 @@
   "dependencies": {
     "jwt-decode": "^2.2.0",
     "react": "^15.6.1",
-    "react-dom": "^15.6.1"
-  },
-  "devDependencies": {
-    "react-scripts": "1.0.7"
+    "react-dom": "^15.6.1",
+    "react-scripts": "1.0.8"
   },
   "scripts": {
     "start": "react-scripts start",
