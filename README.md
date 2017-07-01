@@ -58,3 +58,4 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 - [React](https://facebook.github.io/react/docs/tutorial.html)
 - [Thinking in React](https://facebook.github.io/react/docs/thinking-in-react.html)
 - [Boilerplate](https://github.com/facebookincubator/create-react-app)
+- [React Router](https://reacttraining.com/react-router/web/guides/philosophy)
