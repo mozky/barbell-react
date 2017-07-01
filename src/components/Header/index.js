@@ -9,7 +9,7 @@ class Header extends Component {
       <header className="masthead clear">
         <div className="navbar area">
           <h1 className="brand">Barbell - Welcome {this.props.user.username}</h1>
-          <nav role="navigation" id="navigation" className="list">
+          <nav id="navigation" className="list">
             <a className="item -link" onClick={() => this.props.handleLogout()}>Logout</a>
           </nav>
           <button data-collapse data-target="#navigation" className="toggle">

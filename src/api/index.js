@@ -1,4 +1,4 @@
-import fetch from 'node-fetch';
+import fetch from 'whatwg-fetch';
 import { ValidateToken } from '../helpers';
 
 const API_HOST = "http://localhost:10010/";
