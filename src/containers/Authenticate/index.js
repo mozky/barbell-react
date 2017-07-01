@@ -15,23 +15,31 @@ class Authenticate extends Component {
     this.handleRegister = this.handleRegister.bind(this);
     this.changeTab = this.changeTab.bind(this);
     this.state = {
+      referrer: this.setReferrer(this.props.location),
       activeTab: types.LOGIN
     };
   }
 
+  setReferrer(location) {
+    return (location.state && location.state.referrer) ? (
+      location.state.referrer.pathname
+    ) :
+      '/dashboard'; // Default route to redirect after login
+  }
+
   handleLogin (values) {
-    console.log('NYI: Handle Login', values)
     Api.login(values).then((user) => {
       this.props.loadApp(user)
+      this.props.history.replace(this.state.referrer);
     }).catch((error) => {
       console.log('Error!', error);
     })
   }
 
   handleRegister (values) {
-    console.log('NYI: Handle Register', values);
     Api.register(values).then((user) => {
       this.props.loadApp(user)
+      this.props.history.replace(this.state.referrer)
     }).catch((error) => {
       console.log('Error!', error);
     })
@@ -39,7 +47,6 @@ class Authenticate extends Component {
 
   changeTab (newTab, e) {
     e.preventDefault();
-    console.log('changeTab:', newTab);
 
     this.setState({
       activeTab: newTab
@@ -62,7 +69,7 @@ class Authenticate extends Component {
     }
 
     return (
-      <div className="login-page">
+      <div className="app login-page">
         <div className="form">
           <img src={logo} className="App-logo" alt="logo" />
           { renderedTab }
