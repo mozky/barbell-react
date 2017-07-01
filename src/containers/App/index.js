@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
-import Header from '../../components/Header';
-import Footer from '../../components/Footer';
-import Card from '../../components/Card';
-import SidebarLayout from '../SidebarLayout';
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+} from 'react-router-dom';
+import Landing from '../../components/Landing';
+import Dashboard from '../Dashboard';
 import Authenticate from '../Authenticate';
+import { PropsRoute, PrivateRoute } from '../Helpers';
 import { ValidateToken } from '../../helpers';
 import './App.css';
 
@@ -14,10 +18,15 @@ class App extends Component {
     this.handleLogout = this.handleLogout.bind(this);
 
     let localToken;
+    let userInfo;
     if (window.localStorage)
       localToken = window.localStorage.getItem('API_TOKEN');
 
-    let userInfo = ValidateToken(localToken);
+      localToken ? (
+        userInfo = ValidateToken(localToken)
+      ) : (
+        userInfo = false
+      );
 
     this.state = {
       isLoggedIn: (userInfo ? true : false),
@@ -44,25 +53,27 @@ class App extends Component {
     })
   }
 
+
   render() {
-      if (this.state && this.state.isLoggedIn) {
-        return (
-          <div className="App">
-            <Header user={this.state.user} handleLogout={this.handleLogout} />
-            <SidebarLayout>
-              <Card />
-            </SidebarLayout>
-            <Footer />
-          </div>
-        );
-      } else {
-        return (
-          <div className="App">
-            <Authenticate loadApp={this.loadApp}/>
-          </div>
-        )
-      }
+
+    return (
+      <Router>
+        <Switch>
+          <Route exact path="/" component={Landing} />
+
+          <PropsRoute path="/auth" component={Authenticate}
+            loadApp={this.loadApp} />
+
+          <PrivateRoute path="/dashboard" component={Dashboard}
+            user={this.state.user}
+            isLoggedIn={this.state.isLoggedIn}
+            handleLogout={this.handleLogout} redirectTo="/auth" />
+
+        </Switch>
+      </Router>
+    )
   }
+
 }
 
 export default App;
