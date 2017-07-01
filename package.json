@@ -21,15 +21,16 @@
   "dependencies": {
     "jwt-decode": "^2.2.0",
     "react": "^15.6.1",
-    "react-dom": "^15.6.1"
-  },
-  "devDependencies": {
-    "react-scripts": "1.0.7"
+    "react-dom": "^15.6.1",
+    "react-scripts": "1.0.8"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
+  },
+  "devDependencies": {
+    "jest-cli": "^20.0.4"
   }
 }
