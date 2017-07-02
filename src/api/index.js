@@ -15,14 +15,12 @@ function health() {
     fetch(API_HOST + 'health')
       .then(res => {
         if (res.status === 200) {
-          resolve();
+          resolve(res.text());
         } else {
-          reject();
+          reject('unexpected response from server');
         }
-        return res.text()
-      })
-      .then(body => {
-        console.log('Response body', body)
+      }).catch(err => {
+        reject(err);
       });
   });
 }
