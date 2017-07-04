@@ -24,7 +24,7 @@ class Authenticate extends Component {
     return (location.state && location.state.referrer) ? (
       location.state.referrer.pathname
     ) :
-      '/dashboard'; // Default route to redirect after login
+      '/app'; // Default route to redirect after login
   }
 
   handleLogin (values) {

@@ -30,3 +30,18 @@ export const PrivateRoute = ({ component, redirectTo, isLoggedIn, ...rest }) => 
     }}/>
   );
 };
+
+export const AdminRoute = ({ component, redirectTo, isLoggedIn, isAdmin, ...rest }) => {
+  return (
+    <Route {...rest} render={routeProps => {
+      return (isLoggedIn && isAdmin) ? (
+        renderMergedProps(component, routeProps, rest)
+      ) : (
+        <Redirect to={{
+          pathname: redirectTo,
+          state: { referrer: routeProps.location }
+        }}/>
+      );
+    }}/>
+  );
+};
