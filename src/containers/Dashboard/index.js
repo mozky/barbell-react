@@ -10,38 +10,45 @@ class Dashboard extends Component {
 
   constructor(props) {
     super(props);
-    this.sideBarLayout = this.sideBarLayout.bind(this);
-  }
-
-  fullWidthLayout(childElement) {
-    return (
-      <div className="app dashboard">
-        <Header username={this.props.user.username} handleLogout={this.props.handleLogout} />
-          {childElement}
-        <Footer />
-      </div>
-    )
-  }
-
-  sideBarLayout(childElement) {
-    return (
-      <div className="app dashboard">
-        <Header username={this.props.user.username} handleLogout={this.props.handleLogout} />
-        <SidebarLayout>
-          {childElement}
-        </SidebarLayout>
-        <Footer />
-      </div>
-    )
+    this.state = {
+      layout: 'SidebarLayout'
+    }
   }
 
   render() {
-    return(
-      <div>
-        <Route exact path={this.props.match.url} component={() => this.sideBarLayout(<Card />)}/>
-        <Route path={`${this.props.match.url}/:usernaM`} render={() => this.fullWidthLayout(<UserPage />)}/>
-      </div>
-    )
+    const routes = (
+        <div>
+          <Route path={`${this.props.match.url}/:username`} component={UserPage}/>
+          <Route exact path={this.props.match.url} component={Card}/>
+        </div>
+    );
+
+    switch (this.state.layout) {
+      case 'SidebarLayout':
+        return (
+          <div className="app dashboard">
+            <Header username={this.props.user.username} handleLogout={this.props.handleLogout} />
+            <SidebarLayout>
+              {routes}
+            </SidebarLayout>
+            <Footer />
+          </div>
+        );
+      case 'FullWidthLayout':
+        return (
+          <div className="app dashboard">
+            <Header username={this.props.user.username} handleLogout={this.props.handleLogout} />
+              {routes}
+            <Footer />
+          </div>
+        );
+      default:
+        return (
+          <div className="app dashboard">
+            <h1>Layout error</h1>
+          </div>
+        );
+    }
   }
 }
 
