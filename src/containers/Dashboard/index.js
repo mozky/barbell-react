@@ -5,6 +5,7 @@ import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import Card from '../../components/Card';
 import SidebarLayout from '../SidebarLayout';
+import About from '../../components/About';
 
 class Dashboard extends Component {
 
@@ -18,8 +19,9 @@ class Dashboard extends Component {
   render() {
     const routes = (
         <div>
-          <Route path={`${this.props.match.url}/:username`} component={UserPage}/>
           <Route exact path={this.props.match.url} component={Card}/>
+          <Route exact path={`${this.props.match.url}/about`} component={About}/>
+          <Route exact path={`${this.props.match.url}/user/:username`} component={UserPage}/>
         </div>
     );
 

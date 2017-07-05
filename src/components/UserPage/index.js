@@ -1,10 +1,16 @@
 import React, { Component } from 'react';
 
 class UserPage extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      routeParam: props.match.params.username
+    }
+  }
 
   render() {
     return(
-      <h3>STILL NEEDS A WAY OFF GETTING THE PARAM FROM THE URL, AND VALIDATE ONLY IF THE USER EXISTS</h3>
+      <h3>TODO: Validate if user <strong>{this.state.routeParam}</strong> exists...</h3>
     );
   }
 }
