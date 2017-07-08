@@ -8,7 +8,7 @@ class Header extends Component {
     return (
       <header className="masthead clear">
         <div className="navbar area">
-          <h1 className="brand">Barbell - Welcome {this.props.user.username}</h1>
+          <h1 className="brand">Barbell - Welcome {this.props.username}</h1>
           <nav id="navigation" className="list">
             <a className="item -link" onClick={() => this.props.handleLogout()}>Logout</a>
           </nav>
@@ -23,7 +23,7 @@ class Header extends Component {
 }
 
 Header.propTypes = {
-  user: PropTypes.object,
+  username: PropTypes.string,
   handleLogout: PropTypes.func
 };
 

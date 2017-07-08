@@ -49,7 +49,7 @@ class App extends Component {
 
     this.setState({
       isLoggedIn: false,
-      user: "null"
+      user: 'null'
     })
   }
 
@@ -64,7 +64,7 @@ class App extends Component {
           <PropsRoute path="/auth" component={Authenticate}
             loadApp={this.loadApp} />
 
-          <PrivateRoute path="/dashboard" component={Dashboard}
+          <PrivateRoute path="/app" component={Dashboard}
             user={this.state.user}
             isLoggedIn={this.state.isLoggedIn}
             handleLogout={this.handleLogout} redirectTo="/auth" />

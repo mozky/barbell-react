@@ -38,7 +38,7 @@ class Landing extends Component {
         <h1>Barbell</h1>
         <br></br>
         <ul>
-          <li><Link to="/dashboard">Enter</Link></li>
+          <li><Link to="/app">Enter</Link></li>
         </ul>
         <br></br>
         <h3>API Server: {this.state.apiStatus}</h3>
