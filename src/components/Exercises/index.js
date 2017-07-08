@@ -27,7 +27,7 @@ class Exercises extends Component {
       return ''
 
     return this.state.exercises.map((exercise) =>
-      <li key={exercise.getName()}>{exercise.getName()}</li>
+      <li key={exercise.getId()}>{exercise.getName()}</li>
     );
 
   }
