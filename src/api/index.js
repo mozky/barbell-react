@@ -131,9 +131,28 @@ function userGet(username) {
   })
 }
 
+function exerciseListGet() {
+  return new Promise(function(resolve, reject) {
+    let headers = getValidToken();
+    fetch(API_HOST + 'exercise', {
+      headers
+    })
+      .then(res => {
+        console.log(res.ok);
+        console.log(res.status);
+        console.log(res.statusText);
+        if (res.status !== 200) {
+          reject(res.status);
+        }
+        resolve(res.text());
+      });
+  })
+}
+
 export default  {
     health,
     login,
     register,
     userGet,
+    exerciseListGet
 }
