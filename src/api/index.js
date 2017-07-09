@@ -133,7 +133,9 @@ function userGet(username) {
 
 function exerciseListGet() {
   return new Promise(function(resolve, reject) {
-    let headers = getValidToken();
+    const headers = getValidToken();
+    headers['Content-Type'] = 'application/json';
+
     fetch(API_HOST + 'exercise', {
       headers
     })
@@ -157,12 +159,37 @@ function exercisePost(request) {
       'name': request.name
     };
 
+    const headers = getValidToken();
+    headers['Content-Type'] = 'application/json';
+
     fetch(API_HOST + 'exercise', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
+      headers,
       body: JSON.stringify(args)
+    })
+      .then(res => {
+        console.log(res.ok);
+        console.log(res.status);
+        console.log(res.statusText);
+        if (res.status !== 200) {
+          reject(res.status)
+        }
+        resolve(res.text())
+      })
+
+  });
+}
+
+function exerciseDelete(exerciseId) {
+  return new Promise(function (resolve, reject) {
+
+    const headers = getValidToken();
+    headers['Content-Type'] = 'application/json';
+
+
+    fetch(API_HOST + 'exercise/' + exerciseId, {
+      method: 'DELETE',
+      headers
     })
       .then(res => {
         console.log(res.ok);
@@ -183,5 +210,6 @@ export default  {
     register,
     userGet,
     exerciseListGet,
-    exercisePost
+    exercisePost,
+    exerciseDelete
 }

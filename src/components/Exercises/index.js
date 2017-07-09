@@ -16,6 +16,7 @@ class Exercises extends Component {
   }
 
   componentWillMount() {
+    // TODO: Do This on the API object
     const source = new EventSource("http://localhost:10010/exerciseUpdates");
 
     let that = this;
@@ -26,6 +27,12 @@ class Exercises extends Component {
       switch(event.type) {
         case 'add':
           that.handleNewExercise(event.obj)
+          break
+        case 'update':
+          that.handleUpdateExercise(event.obj)
+          break
+        case 'delete':
+          that.handleDeleteExercise(event.obj._id)
           break
         default:
           console.log('unknown event type', event);
@@ -44,7 +51,7 @@ class Exercises extends Component {
   }
 
   componentWillUnmount() {
-    console.log('component will unmount')
+    // Closing SSE connection
     this.state.source.close()
   }
 
@@ -56,14 +63,34 @@ class Exercises extends Component {
     })
   }
 
+  handleUpdateExercise(exercise) {
+    // TODO: Implement full update exercise
+    console.log('NYI');
+  }
+
+  handleDeleteExercise(exerciseId) {
+    let currentExercises = this.state.exercises;
+    currentExercises = currentExercises.filter(function(ex){
+      return ex.get_Id() !== exerciseId;
+    })
+    this.setState({
+      exercises: currentExercises
+    })
+  }
+
   createExercisesRows() {
     if (this.state.exercises === 'null')
       return ''
     return this.state.exercises.map((exercise) => {
       return (
-        <tr key={exercise.getId()}>
-          <td data-label="_id">{exercise.getId()}</td>
+        <tr key={exercise.get_Id()}>
+          <td data-label="_id">{exercise.get_Id()}</td>
+          <td data-label="id">{exercise.getId()}</td>
           <td data-label="Name">{exercise.getName()}</td>
+          <td>
+            <button className="update_button" onClick={() => this.updateExercise(exercise.get_Id())}>Update</button>
+            <button className="delete_button" onClick={() => this.deleteExercise(exercise.get_Id())}>Delete</button>
+          </td>
         </tr>
       );
     });
@@ -76,6 +103,18 @@ class Exercises extends Component {
       console.log(response);
     }).catch((error) => {
       console.log('Error!', error);
+    })
+  }
+
+  updateExercise(exerciseId) {
+    console.log('todo: update exercise id', exerciseId)
+  }
+
+  deleteExercise(exerciseId) {
+    Api.exerciseDelete(exerciseId).then((response) => {
+      console.log(response);
+    }).catch((error) => {
+      console.log('Error!', error)
     })
   }
 
@@ -97,7 +136,9 @@ class Exercises extends Component {
           <thead>
             <tr>
               <th scope="col">_id</th>
+              <th scope="col">id</th>
               <th scope="col">Name</th>
+              <th scope="col">Actions</th>
             </tr>
           </thead>
           <tbody>
