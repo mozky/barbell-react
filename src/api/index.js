@@ -149,10 +149,39 @@ function exerciseListGet() {
   })
 }
 
+function exercisePost(request) {
+  return new Promise(function (resolve, reject) {
+    // TODO: Validate the fields? later...
+    const args = {
+      'id': request.id,
+      'name': request.name
+    };
+
+    fetch(API_HOST + 'exercise', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(args)
+    })
+      .then(res => {
+        console.log(res.ok);
+        console.log(res.status);
+        console.log(res.statusText);
+        if (res.status !== 200) {
+          reject(res.status)
+        }
+        resolve(res.text())
+      })
+
+  });
+}
+
 export default  {
     health,
     login,
     register,
     userGet,
-    exerciseListGet
+    exerciseListGet,
+    exercisePost
 }
