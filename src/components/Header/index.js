@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import './Header.css';
 
@@ -8,7 +9,7 @@ class Header extends Component {
     return (
       <header className="masthead clear">
         <div className="navbar area">
-          <h1 className="brand">Barbell - Welcome {this.props.username}</h1>
+          <h1 className="brand"><Link to="/app">Barbell</Link> - Welcome {this.props.username}</h1>
           <nav id="navigation" className="list">
             <a className="item -link" onClick={() => this.props.handleLogout()}>Logout</a>
           </nav>

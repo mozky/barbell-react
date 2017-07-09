@@ -40,8 +40,14 @@
 .navbar > .brand {
   display: block;
   font-size: 16px;
+  font-weight: normal;
   color: #fff;
   margin: 22px;
+}
+
+.navbar > .brand > a {
+  color: #fff;
+  font-weight: bold;
 }
 
 .navbar > .toggle {

@@ -43,6 +43,11 @@ class Exercises extends Component {
     })
   }
 
+  componentWillUnmount() {
+    console.log('component will unmount')
+    this.state.source.close()
+  }
+
   handleNewExercise(exercise) {
     const currentExercises = this.state.exercises;
     currentExercises.push(new Exercise(exercise))
