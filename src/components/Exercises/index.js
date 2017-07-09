@@ -10,13 +10,26 @@ class Exercises extends Component {
       exercises: 'null',
       source: 'null'
     }
+
+    this.handleNewExercise = this.handleNewExercise.bind(this);
+
   }
 
   componentWillMount() {
     const source = new EventSource("http://localhost:10010/exerciseUpdates");
 
-    source.onmessage = function(event) {
-      console.log(event);
+    let that = this;
+
+    source.onmessage = function(rawEvent) {
+      // Maybe use a event class
+      const event = JSON.parse(rawEvent.data);
+      switch(event.type) {
+        case 'add':
+          that.handleNewExercise(event.obj)
+          break
+        default:
+          console.log('unknown event type', event);
+      }
     }
 
     Api.exerciseListGet().then((response) => {
@@ -27,6 +40,14 @@ class Exercises extends Component {
       this.setState({exercises, source})
     }).catch((err) => {
       console.log(err);
+    })
+  }
+
+  handleNewExercise(exercise) {
+    const currentExercises = this.state.exercises;
+    currentExercises.push(new Exercise(exercise))
+    this.setState({
+      exercises: currentExercises
     })
   }
 
