@@ -22,16 +22,6 @@ input[type=password]{
   width: 33%
 }
 
-.update_button {
-  background-color: #41bc2b;
-  border: 0;
-  color: white;
-  cursor: pointer;
-  font-size: 16px;
-  margin-right: 15px;
-  padding: 5px 10px;
-}
-
 .delete_button {
   background-color: #c42326;
   border: 0;

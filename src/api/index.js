@@ -180,6 +180,31 @@ function exercisePost(request) {
   });
 }
 
+function exercisePatch(exerciseId, updates) {
+  return new Promise(function (resolve, reject) {
+    // TODO: Validate the updates? later...
+
+    const headers = getValidToken();
+    headers['Content-Type'] = 'application/json';
+
+    fetch(API_HOST + 'exercise/' + exerciseId, {
+      method: 'PATCH',
+      headers,
+      body: JSON.stringify(updates)
+    })
+      .then(res => {
+        console.log(res.ok);
+        console.log(res.status);
+        console.log(res.statusText);
+        if (res.status !== 200) {
+          reject(res.status)
+        }
+        resolve(res.text())
+      })
+
+  });
+}
+
 function exerciseDelete(exerciseId) {
   return new Promise(function (resolve, reject) {
 
@@ -204,6 +229,10 @@ function exerciseDelete(exerciseId) {
   });
 }
 
+function exerciseSubscribe() {
+  return new EventSource(API_HOST + "exerciseUpdates");
+}
+
 export default  {
     health,
     login,
@@ -211,5 +240,7 @@ export default  {
     userGet,
     exerciseListGet,
     exercisePost,
-    exerciseDelete
+    exercisePatch,
+    exerciseDelete,
+    exerciseSubscribe
 }

@@ -11,15 +11,15 @@ class Exercises extends Component {
       source: 'null'
     }
 
+    // IS THIS NEEDED?
     this.handleNewExercise = this.handleNewExercise.bind(this);
 
   }
 
   componentWillMount() {
-    // TODO: Do This on the API object
-    const source = new EventSource("http://localhost:10010/exerciseUpdates");
-
     let that = this;
+
+    const source = Api.exerciseSubscribe();
 
     source.onmessage = function(rawEvent) {
       // Maybe use a event class
@@ -44,7 +44,10 @@ class Exercises extends Component {
       JSON.parse(response).forEach(function(exercise) {
         exercises.push(new Exercise(exercise));
       });
-      this.setState({exercises, source})
+      this.setState({
+        exercises,
+        source
+      })
     }).catch((err) => {
       console.log(err);
     })
@@ -63,9 +66,17 @@ class Exercises extends Component {
     })
   }
 
-  handleUpdateExercise(exercise) {
-    // TODO: Implement full update exercise
-    console.log('NYI');
+  handleUpdateExercise(updatedExercise) {
+    let currentExercises = this.state.exercises
+    currentExercises = currentExercises.map(function(ex) {
+      if (ex.get_Id() === updatedExercise._id) {
+        return new Exercise(updatedExercise)
+      }
+      return ex
+    })
+    this.setState({
+      exercises: currentExercises
+    })
   }
 
   handleDeleteExercise(exerciseId) {
@@ -85,11 +96,33 @@ class Exercises extends Component {
       return (
         <tr key={exercise.get_Id()}>
           <td data-label="_id">{exercise.get_Id()}</td>
-          <td data-label="id">{exercise.getId()}</td>
-          <td data-label="Name">{exercise.getName()}</td>
+          <td data-label="id"
+            onClick={(e) => {
+              e.target.contentEditable = true;
+              e.target.focus();
+            }}
+            onBlur={(e) => {
+              e.target.removeAttribute("contentEditable");
+              this.updateExercise(exercise.get_Id(), e)
+            }}>
+            {exercise.getId()}
+          </td>
+          <td data-label="Name"
+            onClick={(e) => {
+              e.target.contentEditable = true;
+              e.target.focus();
+            }}
+            onBlur={(e) => {
+              e.target.removeAttribute("contentEditable")
+              this.updateExercise(exercise.get_Id(), e)
+            }}>
+            {exercise.getName()}
+          </td>
           <td>
-            <button className="update_button" onClick={() => this.updateExercise(exercise.get_Id())}>Update</button>
-            <button className="delete_button" onClick={() => this.deleteExercise(exercise.get_Id())}>Delete</button>
+            <button className="delete_button"
+              onClick={() => this.deleteExercise(exercise.get_Id())}>
+              Delete
+            </button>
           </td>
         </tr>
       );
@@ -106,8 +139,29 @@ class Exercises extends Component {
     })
   }
 
-  updateExercise(exerciseId) {
-    console.log('todo: update exercise id', exerciseId)
+  updateExercise(exerciseId, event) {
+    const value = event.target.innerHTML
+    const property = event.target.getAttribute("data-label").toLowerCase()
+
+    // Maps the object and when found compares the value to see if there are any
+    // changes, if changes are found, the update call is made to the server
+
+    this.state.exercises.map((ex) => {
+      if (ex.get_Id() === exerciseId) {
+        if (ex[property] !== value) {
+          console.log('property changed update required', ex[property]);
+          Api.exercisePatch(exerciseId, {
+            [property]: value
+          }).then((response) => {
+            console.log(response)
+          }).catch((error) => {
+            console.log('Error!', error);
+          })
+        }
+      }
+      return ex
+    })
+
   }
 
   deleteExercise(exerciseId) {
