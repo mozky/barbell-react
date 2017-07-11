@@ -123,7 +123,7 @@ function userGet(username) {
         console.log(res.status);
         console.log(res.statusText);
         if (res.status === 200) {
-          resolve('TODO: Get response object from Barbell API');
+          resolve(res.text());
         } else {
           reject(res.status);
         }

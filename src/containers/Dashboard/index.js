@@ -22,6 +22,7 @@ class Dashboard extends Component {
     const routes = (
         <div>
           <Route exact path={this.props.match.url} component={Card}/>
+          <Route exact path={`${this.props.match.url}/404`} render={() => <div>TODO: 404 page</div>} />
           <Route exact path={`${this.props.match.url}/about`} component={About}/>
           <Route exact path={`${this.props.match.url}/user/:username`} component={UserPage}/>
           <AdminRoute exact path={`${this.props.match.url}/exercises`}
