@@ -14,7 +14,7 @@ class Dashboard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      layout: 'FullWidthLayout'
+      layout: 'SidebarLayout'
     }
   }
 
@@ -37,7 +37,7 @@ class Dashboard extends Component {
         return (
           <div className="app dashboard">
             <Header username={this.props.user.username} handleLogout={this.props.handleLogout} />
-            <SidebarLayout>
+            <SidebarLayout username={this.props.user.username} isAdmin={this.props.user.admin}>
               {routes}
             </SidebarLayout>
             <Footer />
