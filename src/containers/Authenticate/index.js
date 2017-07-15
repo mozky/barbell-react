@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Register from '../../components/Register';
 import Login from '../../components/Login';
 import logo from '../../images/logo.svg';
-import * as types from '../../types';
+import * as Types from '../../types';
 import Api from '../../api';
 import './Authenticate.css';
 
@@ -16,7 +16,7 @@ class Authenticate extends Component {
     this.changeTab = this.changeTab.bind(this);
     this.state = {
       referrer: this.setReferrer(this.props.location),
-      activeTab: types.LOGIN
+      activeTab: Types.LOGIN
     };
   }
 
@@ -58,10 +58,10 @@ class Authenticate extends Component {
     let renderedTab;
 
     switch(this.state.activeTab) {
-      case types.LOGIN:
+      case Types.LOGIN:
         renderedTab = <Login handleSubmit={this.handleLogin} goTo={this.changeTab}/>;
         break;
-      case types.REGISTER:
+      case Types.REGISTER:
         renderedTab = <Register handleSubmit={this.handleRegister} goTo={this.changeTab}/>;
         break;
       default:

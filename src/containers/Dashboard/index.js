@@ -8,6 +8,7 @@ import Card from '../../components/Card';
 import Exercises from '../../components/Exercises';
 import SidebarLayout from '../SidebarLayout';
 import About from '../../components/About';
+import RoutineCreator from '../../components/RoutineCreator';
 
 class Dashboard extends Component {
 
@@ -25,6 +26,7 @@ class Dashboard extends Component {
           <Route exact path={`${this.props.match.url}/404`} render={() => <div>TODO: 404 page</div>} />
           <Route exact path={`${this.props.match.url}/about`} component={About}/>
           <Route exact path={`${this.props.match.url}/user/:username`} component={UserPage}/>
+          <Route exact path={`${this.props.match.url}/new`} component={RoutineCreator} />
           <AdminRoute exact path={`${this.props.match.url}/exercises`}
             component={Exercises}
             redirectTo={"/app"}

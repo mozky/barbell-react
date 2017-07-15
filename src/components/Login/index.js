@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import * as types from '../../types';
+import * as Types from '../../types';
 
 class Login extends Component {
 
@@ -34,7 +34,7 @@ class Login extends Component {
         <button type="button" onClick={() => this.props.handleSubmit(this.state)}>
           Login
         </button>
-        <p className="message">Not registered? <a title="Click to go to registration page" onClick={(e) => this.props.goTo(types.REGISTER, e)}>Create an account</a></p>
+        <p className="message">Not registered? <a title="Click to go to registration page" onClick={(e) => this.props.goTo(Types.REGISTER, e)}>Create an account</a></p>
       </form>
     );
   }
