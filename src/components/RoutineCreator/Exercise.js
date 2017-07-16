@@ -49,12 +49,30 @@ const style = {
 class Exercise extends Component {
 
     render() {
-      const { text, isDragging, connectDragSource, connectDropTarget } = this.props;
+      const { id, name, isDragging, connectDragSource, connectDropTarget, recordFields, data, updateExercise } = this.props;
       const opacity = isDragging ? 0 : 1;
+
+      // recordFields.map(field => {
+      //
+      // })
 
       return connectDragSource(connectDropTarget(
         <div style={{ ...style, opacity }}>
-          {text}
+          {name} - {recordFields.map(field => {
+            return (
+              <span key={field}
+                onClick={(e) => {
+                  e.target.contentEditable = true;
+                  e.target.focus();
+                }}
+                onBlur={(e) => {
+                  e.target.removeAttribute("contentEditable");
+                  updateExercise(id, e)
+                }}>
+                {' ' + (data.field || field) + ' '}
+              </span>
+            )
+          })}
         </div>,
       ));
     }
@@ -65,7 +83,10 @@ Exercise.PropTypes = {
   connectDropTarget: PropTypes.func.isRequired,
   isDragging: PropTypes.bool.isRequired,
   id: PropTypes.any.isRequired,
-  text: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  data: PropTypes.object,
+  recordFields: PropTypes.array.isRequired,
+  updateExercise: PropTypes.func.isRequired,
   moveExercise: PropTypes.func.isRequired,
   findExercise: PropTypes.func.isRequired,
 }

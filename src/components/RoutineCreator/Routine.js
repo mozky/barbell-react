@@ -18,18 +18,30 @@ class Routine extends Component {
     this.moveExercise = this.moveExercise.bind(this);
     this.findExercise = this.findExercise.bind(this);
     this.addExercise = this.addExercise.bind(this);
+    this.updateExercise = this.updateExercise.bind(this);
     this.handleNewExerciseChange = this.handleNewExerciseChange.bind(this);
     this.state = {
       newExercise: '',
       exercises: [{
         id: 1,
-        text: 'Write a cool JS library',
+        name: 'Run',
+        recordFields: ['time', 'intensity', 'inclination'],
+        data: {}
       }, {
         id: 2,
-        text: 'Make it generic enough',
+        name: 'Bench Press',
+        recordFields: ['sets', 'reps', 'weight'],
+        data: {}
       }, {
         id: 3,
-        text: 'Write README',
+        name: 'Dumbbell Flyes',
+        recordFields: ['sets', 'reps', 'weight'],
+        data: {}
+      }, {
+        id: 4,
+        name: 'Tricep Extension',
+        recordFields: ['sets', 'reps', 'weight'],
+        data: {}
       }],
     };
   }
@@ -49,10 +61,22 @@ class Routine extends Component {
       exercises: {
         $push: [{
           id: this.state.exercises.length + 1,
-          text: this.state.newExercise,
+          name: this.state.newExercise,
+          recordFields: ['sets', 'reps', 'weight'],
+          data: {}
         }]
       }
     }))
+  }
+
+  updateExercise(id, data) {
+    const { exercise, index } = this.findExercise(id);
+    console.log(id, data, exercise, index);
+    // this.setState(update(this.state, {
+    //   exercises: {
+    //     set
+    //   }
+    // }))
   }
 
   moveExercise(id, atIndex) {
@@ -91,7 +115,10 @@ class Routine extends Component {
           <Exercise
             key={exercise.id}
             id={exercise.id}
-            text={exercise.text}
+            name={exercise.name}
+            data={exercise.data}
+            recordFields={exercise.recordFields}
+            updateExercise={this.updateExercise}
             moveExercise={this.moveExercise}
             findExercise={this.findExercise}
           />
