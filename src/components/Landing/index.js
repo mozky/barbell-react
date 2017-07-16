@@ -36,11 +36,7 @@ class Landing extends Component {
     return(
       <div className="landing">
         <h1>Barbell</h1>
-        <br></br>
-        <ul>
-          <li><Link to="/app">Enter</Link></li>
-        </ul>
-        <br></br>
+        <Link to="/app"><div id="enter_button">Enter</div></Link>
         <h3>API Server: {this.state.apiStatus}</h3>
       </div>
     )
