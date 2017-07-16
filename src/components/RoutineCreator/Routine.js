@@ -18,7 +18,9 @@ class Routine extends Component {
     this.moveExercise = this.moveExercise.bind(this);
     this.findExercise = this.findExercise.bind(this);
     this.addExercise = this.addExercise.bind(this);
+    this.handleNewExerciseChange = this.handleNewExerciseChange.bind(this);
     this.state = {
+      newExercise: '',
       exercises: [{
         id: 1,
         text: 'Write a cool JS library',
@@ -32,12 +34,22 @@ class Routine extends Component {
     };
   }
 
+  handleNewExerciseChange(event) {
+    event.preventDefault();
+    // Compare with exercises list to autocomplete and some dope shit
+    this.setState(update(this.state, {
+      newExercise: {
+        $set: event.target.value
+      }
+    }));
+  }
+
   addExercise() {
     this.setState(update(this.state, {
       exercises: {
         $push: [{
-          id: 4,
-          text: 'Wohoo',
+          id: this.state.exercises.length + 1,
+          text: this.state.newExercise,
         }]
       }
     }))
@@ -75,7 +87,6 @@ class Routine extends Component {
         width: '100%',
         height: '50px'
       }}>
-        <button onClick={this.addExercise}>Add new!</button>
         {exercises.map(exercise => (
           <Exercise
             key={exercise.id}
@@ -85,6 +96,9 @@ class Routine extends Component {
             findExercise={this.findExercise}
           />
         ))}
+        <input style={{width: '100%'}} type="text" placeholder="Search for a exercise" value={this.state.newExercise} onChange={this.handleNewExerciseChange} />
+        <br />
+        <button onClick={this.addExercise}>Add new!</button>
       </div>
     );
   }
