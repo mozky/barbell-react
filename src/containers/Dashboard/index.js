@@ -21,7 +21,7 @@ class Dashboard extends Component {
 
   render() {
     const routes = (
-        <div>
+        <div style={{width: '100%'}}>
           <Route exact path={this.props.match.url} component={Card}/>
           <Route exact path={`${this.props.match.url}/404`} render={() => <div>TODO: 404 page</div>} />
           <Route exact path={`${this.props.match.url}/about`} component={About}/>

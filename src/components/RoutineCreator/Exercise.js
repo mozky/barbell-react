@@ -44,6 +44,7 @@ const style = {
   marginBottom: '.5rem',
   backgroundColor: 'white',
   cursor: 'move',
+  width: '100%'
 };
 
 class Exercise extends Component {
@@ -52,25 +53,19 @@ class Exercise extends Component {
       const { id, name, isDragging, connectDragSource, connectDropTarget, recordFields, data, updateExercise } = this.props;
       const opacity = isDragging ? 0 : 1;
 
-      // recordFields.map(field => {
-      //
-      // })
-
       return connectDragSource(connectDropTarget(
-        <div style={{ ...style, opacity }}>
-          {name} - {recordFields.map(field => {
+        <div className="exercise" style={{ ...style, opacity }}>
+          <i className="fa fa-bars fa-2x exercise_icon"></i>
+          <span className="exercise_item">{name}</span>{recordFields.map(field => {
             return (
-              <span key={field}
-                onClick={(e) => {
-                  e.target.contentEditable = true;
-                  e.target.focus();
+              <input type="text" className="exercise_item exercise_input"
+                key={field}
+                value={(data[field] || '')}
+                placeholder={(data[field] || field)}
+                onChange={(e) => {
+                  updateExercise(id, field, e.target.value)
                 }}
-                onBlur={(e) => {
-                  e.target.removeAttribute("contentEditable");
-                  updateExercise(id, e)
-                }}>
-                {' ' + (data.field || field) + ' '}
-              </span>
+              />
             )
           })}
         </div>,

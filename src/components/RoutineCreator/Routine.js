@@ -26,7 +26,10 @@ class Routine extends Component {
         id: 1,
         name: 'Run',
         recordFields: ['time', 'intensity', 'inclination'],
-        data: {}
+        data: {
+          "time": "00:15:00.000",
+          "intensity": "medium"
+        }
       }, {
         id: 2,
         name: 'Bench Press',
@@ -69,14 +72,22 @@ class Routine extends Component {
     }))
   }
 
-  updateExercise(id, data) {
+  updateExercise(id, property, value) {
     const { exercise, index } = this.findExercise(id);
-    console.log(id, data, exercise, index);
-    // this.setState(update(this.state, {
-    //   exercises: {
-    //     set
-    //   }
-    // }))
+
+    this.setState(update(this.state, {
+      exercises: {
+        $splice: [
+          [index, 1, update(exercise, {
+            data: {
+              $merge: {
+                [property]: value
+              }
+            }
+          })]
+        ]
+      }
+    }))
   }
 
   moveExercise(id, atIndex) {
@@ -107,10 +118,7 @@ class Routine extends Component {
     const { exercises } = this.state;
 
     return connectDropTarget(
-      <div style={{
-        width: '100%',
-        height: '50px'
-      }}>
+      <div className='routine'>
         {exercises.map(exercise => (
           <Exercise
             key={exercise.id}
@@ -123,9 +131,9 @@ class Routine extends Component {
             findExercise={this.findExercise}
           />
         ))}
-        <input style={{width: '100%'}} type="text" placeholder="Search for a exercise" value={this.state.newExercise} onChange={this.handleNewExerciseChange} />
+        <input id="add-exercise" type="text" placeholder="Search for an exercise" value={this.state.newExercise} onChange={this.handleNewExerciseChange} />
         <br />
-        <button onClick={this.addExercise}>Add new!</button>
+        <button id="add-exercise-button" onClick={this.addExercise}>Add new!</button>
       </div>
     );
   }
