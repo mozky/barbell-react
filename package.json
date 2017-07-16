@@ -1,6 +1,6 @@
 {
   "name": "barbell",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Web app for Barbell based on React",
   "private": false,
   "repository": {
@@ -19,11 +19,15 @@
   },
   "homepage": "https://github.com/mozky/barbell-react#readme",
   "dependencies": {
+    "immutability-helper": "^2.3.0",
     "jwt-decode": "^2.2.0",
+    "lodash": "^4.17.4",
     "react": "^15.6.1",
+    "react-dnd": "^2.4.0",
+    "react-dnd-html5-backend": "^2.4.1",
     "react-dom": "^15.6.1",
     "react-router-dom": "^4.1.1",
-    "react-scripts": "1.0.8"
+    "react-scripts": "1.0.10"
   },
   "scripts": {
     "start": "react-scripts start",

@@ -20,6 +20,7 @@ function health() {
           reject('unexpected response from server');
         }
       }).catch(err => {
+        console.log(err);
         reject(err);
       });
   });
@@ -63,8 +64,10 @@ function login(request) {
         } else {
           reject('error')
         }
+      }).catch(err => {
+        console.log(err);
+        reject(err);
       });
-
   });
 }
 
@@ -107,8 +110,10 @@ function register(request) {
         } else {
           reject('error')
         }
+      }).catch(err => {
+        console.log(err);
+        reject(err);
       });
-
   });
 }
 
@@ -123,10 +128,13 @@ function userGet(username) {
         console.log(res.status);
         console.log(res.statusText);
         if (res.status === 200) {
-          resolve('TODO: Get response object from Barbell API');
+          resolve(res.text());
         } else {
           reject(res.status);
         }
+      }).catch(err => {
+        console.log(err);
+        reject(err);
       });
   })
 }
@@ -147,6 +155,9 @@ function exerciseListGet() {
           reject(res.status);
         }
         resolve(res.text());
+      }).catch(err => {
+        console.log(err);
+        reject(err);
       });
   })
 }
@@ -175,7 +186,10 @@ function exercisePost(request) {
           reject(res.status)
         }
         resolve(res.text())
-      })
+      }).catch(err => {
+        console.log(err);
+        reject(err);
+      });
 
   });
 }
@@ -200,7 +214,10 @@ function exercisePatch(exerciseId, updates) {
           reject(res.status)
         }
         resolve(res.text())
-      })
+      }).catch(err => {
+        console.log(err);
+        reject(err);
+      });
 
   });
 }
@@ -224,13 +241,23 @@ function exerciseDelete(exerciseId) {
           reject(res.status)
         }
         resolve(res.text())
-      })
+      }).catch(err => {
+        console.log(err);
+        reject(err);
+      });
 
   });
 }
 
 function exerciseSubscribe() {
-  return new EventSource(API_HOST + "exerciseUpdates");
+  const eventSource = new EventSource(API_HOST + "exerciseUpdates")
+
+  eventSource.onerror = function(e) {
+    console.log("EventSource failed", e);
+    eventSource.close();
+  }
+
+  return eventSource
 }
 
 export default  {
