@@ -6,9 +6,16 @@ h1 {
 h3 {
   font-size: 1em;
 }
-li {
-  font-size: 1.3em;
+
+#enter_button {
+  border: 0;
+  font-size: 1.2em;
+  padding: 1em 2em;
+  margin: 1em;
+  background-color: cornflowerblue;
+  color: white;
 }
+
 a {
   text-decoration: none;
 }
