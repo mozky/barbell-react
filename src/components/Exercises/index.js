@@ -17,26 +17,31 @@ class Exercises extends Component {
   }
 
   componentWillMount() {
-    let that = this;
+    let that = this
+    let source = 'null'
 
-    const source = Api.exerciseSubscribe();
+    try {
+      source = Api.exerciseSubscribe();
 
-    source.onmessage = function(rawEvent) {
-      // Maybe use a event class
-      const event = JSON.parse(rawEvent.data);
-      switch(event.type) {
-        case 'add':
+      source.onmessage = function(rawEvent) {
+        // Maybe use a event class
+        const event = JSON.parse(rawEvent.data);
+        switch(event.type) {
+          case 'add':
           that.handleNewExercise(event.obj)
           break
-        case 'update':
+          case 'update':
           that.handleUpdateExercise(event.obj)
           break
-        case 'delete':
+          case 'delete':
           that.handleDeleteExercise(event.obj._id)
           break
-        default:
+          default:
           console.log('unknown event type', event);
+        }
       }
+    } catch (err) {
+      console.log('Error connecting to API: ', err)
     }
 
     Api.exerciseListGet().then((response) => {
@@ -55,7 +60,8 @@ class Exercises extends Component {
 
   componentWillUnmount() {
     // Closing SSE connection
-    this.state.source.close()
+    if (this.state.source !== 'null')
+      this.state.source.close()
   }
 
   handleNewExercise(exercise) {
