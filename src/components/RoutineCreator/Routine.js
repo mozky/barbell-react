@@ -4,8 +4,10 @@ import { DropTarget, DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import update from 'immutability-helper';
 import flow from 'lodash/flow';
-import Exercise from './Exercise';
+import ExerciseCard from './ExerciseCard';
+import SearchExercise from './SearchExercise';
 import * as Types from '../../types';
+import Api from '../../api';
 
 const cardTarget = {
   drop() {
@@ -17,11 +19,10 @@ class Routine extends Component {
     super(props);
     this.moveExercise = this.moveExercise.bind(this);
     this.findExercise = this.findExercise.bind(this);
-    this.addExercise = this.addExercise.bind(this);
     this.updateExercise = this.updateExercise.bind(this);
-    this.handleNewExerciseChange = this.handleNewExerciseChange.bind(this);
+    this.handleNewExercise = this.handleNewExercise.bind(this);
     this.state = {
-      newExercise: '',
+      exercisesList: null,
       exercises: [{
         id: 1,
         name: 'Run',
@@ -49,22 +50,29 @@ class Routine extends Component {
     };
   }
 
-  handleNewExerciseChange(event) {
-    event.preventDefault();
-    // Compare with exercises list to autocomplete and some dope shit
-    this.setState(update(this.state, {
-      newExercise: {
-        $set: event.target.value
-      }
-    }));
+  componentWillMount() {
+    Api.exerciseListGet().then((response) => {
+      let exercisesList = [];
+      JSON.parse(response).forEach(function(exercise) {
+        exercisesList.push({
+          value: exercise.id,
+          label: exercise.name
+        })
+      });
+      this.setState({
+        exercisesList,
+      })
+    }).catch((err) => {
+      console.log(err);
+    })
   }
 
-  addExercise() {
+  handleNewExercise(selection) {
     this.setState(update(this.state, {
       exercises: {
         $push: [{
           id: this.state.exercises.length + 1,
-          name: this.state.newExercise,
+          name: selection.label,
           recordFields: ['sets', 'reps', 'weight'],
           data: {}
         }]
@@ -120,7 +128,7 @@ class Routine extends Component {
     return connectDropTarget(
       <div className='routine'>
         {exercises.map(exercise => (
-          <Exercise
+          <ExerciseCard
             key={exercise.id}
             id={exercise.id}
             name={exercise.name}
@@ -131,9 +139,11 @@ class Routine extends Component {
             findExercise={this.findExercise}
           />
         ))}
-        <input id="add-exercise" type="text" placeholder="Search for an exercise" value={this.state.newExercise} onChange={this.handleNewExerciseChange} />
-        <br />
-        <button id="add-exercise-button" onClick={this.addExercise}>Add new!</button>
+        <SearchExercise
+          id="add-exercise"
+          handleChange={this.handleNewExercise}
+          exercises={this.state.exercisesList}
+        />
       </div>
     );
   }

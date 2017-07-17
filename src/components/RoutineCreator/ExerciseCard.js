@@ -47,7 +47,7 @@ const style = {
   width: '100%'
 };
 
-class Exercise extends Component {
+class ExerciseCard extends Component {
 
     render() {
       const { id, name, isDragging, connectDragSource, connectDropTarget, recordFields, data, updateExercise } = this.props;
@@ -73,7 +73,7 @@ class Exercise extends Component {
     }
 }
 
-Exercise.PropTypes = {
+ExerciseCard.PropTypes = {
   connectDragSource: PropTypes.func.isRequired,
   connectDropTarget: PropTypes.func.isRequired,
   isDragging: PropTypes.bool.isRequired,
@@ -95,4 +95,4 @@ export default flow(
     connectDragSource: connect.dragSource(),
     isDragging: monitor.isDragging(),
   }))
-)(Exercise)
+)(ExerciseCard)
