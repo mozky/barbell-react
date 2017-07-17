@@ -44,31 +44,49 @@ const style = {
   marginBottom: '.5rem',
   backgroundColor: 'white',
   cursor: 'move',
+  width: '100%'
 };
 
-class Exercise extends Component {
-
+class ExerciseCard extends Component {
 
     render() {
-      const { text, isDragging, connectDragSource, connectDropTarget } = this.props;
+      const { id, name, isDragging, connectDragSource,
+        connectDropTarget, recordFields, data, updateExercise, removeExercise } = this.props;
       const opacity = isDragging ? 0 : 1;
 
       return connectDragSource(connectDropTarget(
-        <div style={{ ...style, opacity }}>
-          {text}
+        <div className="exercise" style={{ ...style, opacity }}>
+          <i className="fa fa-bars fa-2x exercise_icon"></i>
+          <span className="exercise_item">{name}</span>{recordFields.map(field => {
+            return (
+              <input type="text" className="exercise_item exercise_input"
+                key={field}
+                value={(data[field] || '')}
+                placeholder={(data[field] || field)}
+                onChange={(e) => {
+                  updateExercise(id, field, e.target.value)
+                }}
+              />
+            )
+          })}
+          <a onClick={removeExercise}><i className="fa fa-remove fa-2x" id="remove_exercise_icon"></i></a>
         </div>,
       ));
     }
 }
 
-Exercise.PropTypes = {
+ExerciseCard.PropTypes = {
   connectDragSource: PropTypes.func.isRequired,
   connectDropTarget: PropTypes.func.isRequired,
   isDragging: PropTypes.bool.isRequired,
   id: PropTypes.any.isRequired,
-  text: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  data: PropTypes.object,
+  recordFields: PropTypes.array.isRequired,
+  updateExercise: PropTypes.func.isRequired,
   moveExercise: PropTypes.func.isRequired,
   findExercise: PropTypes.func.isRequired,
+  removeExercise: PropTypes.func.isRequired,
 }
 
 // Until we have ES7 decorators, this way we can easily extend Routine with both functions
@@ -80,4 +98,4 @@ export default flow(
     connectDragSource: connect.dragSource(),
     isDragging: monitor.isDragging(),
   }))
-)(Exercise)
+)(ExerciseCard)

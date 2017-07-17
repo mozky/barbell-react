@@ -1,3 +1,56 @@
 .routine {
+  display: flex;
+  flex-flow: column nowrap;
+  padding: 1em;
+}
+
+.exercise {
+  flex: 1 1 100%;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+}
+
+.exercise_icon {
+  flex: 0 0 auto;
+  margin-right: .5em;
+}
+
+#add-exercise {
+  flex: 1 1 100%;
   width: 100%
+}
+
+#save-routine-button {
+  margin-top: 1em;
+  flex: 1 1 100%;
+  border: 0;
+  background-color: cornflowerblue;
+  padding: 1em;
+  font-size: 1.1em;
+  cursor: pointer;
+  color: white;
+  font-weight: bold;
+}
+
+.exercise_remove_icon {
+  flex: 0 0 auto;
+  cursor: pointer;
+}
+
+.exercise_item {
+  flex: 1 1 100%;
+}
+
+.exercise_input {
+  border: 0;
+  color: black;
+  text-align: center;
+}
+
+.exercise_input::placeholder {
+  text-align: center;
+  color: grey;
+  text-transform: uppercase;
+  opacity: 0.6;
 }

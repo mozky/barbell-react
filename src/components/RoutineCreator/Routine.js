@@ -4,8 +4,10 @@ import { DropTarget, DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import update from 'immutability-helper';
 import flow from 'lodash/flow';
-import Exercise from './Exercise';
+import ExerciseCard from './ExerciseCard';
+import SearchExercise from './SearchExercise';
 import * as Types from '../../types';
+import Api from '../../api';
 
 const cardTarget = {
   drop() {
@@ -17,28 +19,74 @@ class Routine extends Component {
     super(props);
     this.moveExercise = this.moveExercise.bind(this);
     this.findExercise = this.findExercise.bind(this);
-    this.addExercise = this.addExercise.bind(this);
+    this.updateExercise = this.updateExercise.bind(this);
+    this.saveRoutine = this.saveRoutine.bind(this);
+    this.removeExercise = this.removeExercise.bind(this);
+    this.handleNewExercise = this.handleNewExercise.bind(this);
     this.state = {
+      // IDEA: Get exercises list by websocket live from server, for now, get full list
+      exercisesList: null,
       exercises: [{
         id: 1,
-        text: 'Write a cool JS library',
+        name: 'Run',
+        recordFields: ['time', 'intensity', 'inclination'],
+        data: {
+          "time": "00:15:00.000",
+          "intensity": "medium"
+        }
       }, {
         id: 2,
-        text: 'Make it generic enough',
-      }, {
-        id: 3,
-        text: 'Write README',
+        name: 'Bench Press',
+        recordFields: ['sets', 'reps', 'weight'],
+        data: {}
       }],
     };
   }
 
-  addExercise() {
+  componentWillMount() {
+    Api.exerciseListGet().then((response) => {
+      let exercisesList = [];
+      JSON.parse(response).forEach(function(exercise) {
+        exercisesList.push({
+          value: exercise.id,
+          label: exercise.name
+        })
+      });
+      this.setState({
+        exercisesList,
+      })
+    }).catch((err) => {
+      console.log(err);
+    })
+  }
+
+  handleNewExercise(selection) {
     this.setState(update(this.state, {
       exercises: {
         $push: [{
-          id: 4,
-          text: 'Wohoo',
+          id: this.state.exercises.length + 1,
+          name: selection.label,
+          recordFields: ['sets', 'reps', 'weight'],
+          data: {}
         }]
+      }
+    }))
+  }
+
+  updateExercise(id, property, value) {
+    const { exercise, index } = this.findExercise(id);
+
+    this.setState(update(this.state, {
+      exercises: {
+        $splice: [
+          [index, 1, update(exercise, {
+            data: {
+              $merge: {
+                [property]: value
+              }
+            }
+          })]
+        ]
       }
     }))
   }
@@ -65,26 +113,57 @@ class Routine extends Component {
     };
   }
 
+  removeExercise(id) {
+    const { index } = this.findExercise(id);
+    this.setState(update(this.state, {
+      exercises: {
+        $splice: [
+          [index, 1]
+        ]
+      }
+    }));
+  }
+
+  saveRoutine() {
+    const request = {
+      user: 'moz',
+      type: 'simple',
+      routine: { exercises: this.state.exercises },
+
+    }
+    Api.routinePost(request).then((response) => {
+      console.log(response)
+    }).catch((err) => {
+      console.log(err);
+    })
+  }
+
   render() {
     // const { type } = this.props.type;
     const { connectDropTarget } = this.props;
     const { exercises } = this.state;
 
     return connectDropTarget(
-      <div style={{
-        width: '100%',
-        height: '50px'
-      }}>
-        <button onClick={this.addExercise}>Add new!</button>
+      <div className='routine'>
         {exercises.map(exercise => (
-          <Exercise
+          <ExerciseCard
             key={exercise.id}
             id={exercise.id}
-            text={exercise.text}
+            name={exercise.name}
+            data={exercise.data}
+            recordFields={exercise.recordFields}
+            updateExercise={this.updateExercise}
             moveExercise={this.moveExercise}
             findExercise={this.findExercise}
+            removeExercise={this.removeExercise}
           />
         ))}
+        <SearchExercise
+          id="add-exercise"
+          handleChange={this.handleNewExercise}
+          exercises={this.state.exercisesList}
+        />
+        <button id="save-routine-button" type="button" onClick={this.saveRoutine}>Save Routine</button>
       </div>
     );
   }
