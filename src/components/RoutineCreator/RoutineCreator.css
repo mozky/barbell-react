@@ -21,7 +21,8 @@
   width: 100%
 }
 
-#add-exercise-button {
+#save-routine-button {
+  margin-top: 1em;
   flex: 1 1 100%;
   border: 0;
   background-color: cornflowerblue;
@@ -30,6 +31,11 @@
   cursor: pointer;
   color: white;
   font-weight: bold;
+}
+
+.exercise_remove_icon {
+  flex: 0 0 auto;
+  cursor: pointer;
 }
 
 .exercise_item {

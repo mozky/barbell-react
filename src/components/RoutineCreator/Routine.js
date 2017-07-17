@@ -20,8 +20,11 @@ class Routine extends Component {
     this.moveExercise = this.moveExercise.bind(this);
     this.findExercise = this.findExercise.bind(this);
     this.updateExercise = this.updateExercise.bind(this);
+    this.saveRoutine = this.saveRoutine.bind(this);
+    this.removeExercise = this.removeExercise.bind(this);
     this.handleNewExercise = this.handleNewExercise.bind(this);
     this.state = {
+      // IDEA: Get exercises list by websocket live from server, for now, get full list
       exercisesList: null,
       exercises: [{
         id: 1,
@@ -34,16 +37,6 @@ class Routine extends Component {
       }, {
         id: 2,
         name: 'Bench Press',
-        recordFields: ['sets', 'reps', 'weight'],
-        data: {}
-      }, {
-        id: 3,
-        name: 'Dumbbell Flyes',
-        recordFields: ['sets', 'reps', 'weight'],
-        data: {}
-      }, {
-        id: 4,
-        name: 'Tricep Extension',
         recordFields: ['sets', 'reps', 'weight'],
         data: {}
       }],
@@ -120,6 +113,31 @@ class Routine extends Component {
     };
   }
 
+  removeExercise(id) {
+    const { index } = this.findExercise(id);
+    this.setState(update(this.state, {
+      exercises: {
+        $splice: [
+          [index, 1]
+        ]
+      }
+    }));
+  }
+
+  saveRoutine() {
+    const request = {
+      user: 'moz',
+      type: 'simple',
+      routine: { exercises: this.state.exercises },
+
+    }
+    Api.routinePost(request).then((response) => {
+      console.log(response)
+    }).catch((err) => {
+      console.log(err);
+    })
+  }
+
   render() {
     // const { type } = this.props.type;
     const { connectDropTarget } = this.props;
@@ -137,6 +155,7 @@ class Routine extends Component {
             updateExercise={this.updateExercise}
             moveExercise={this.moveExercise}
             findExercise={this.findExercise}
+            removeExercise={this.removeExercise}
           />
         ))}
         <SearchExercise
@@ -144,6 +163,7 @@ class Routine extends Component {
           handleChange={this.handleNewExercise}
           exercises={this.state.exercisesList}
         />
+        <button id="save-routine-button" type="button" onClick={this.saveRoutine}>Save Routine</button>
       </div>
     );
   }

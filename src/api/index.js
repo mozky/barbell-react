@@ -260,6 +260,41 @@ function exerciseSubscribe() {
   return eventSource
 }
 
+function routinePost(request) {
+  return new Promise(function (resolve, reject) {
+    // TODO: Validate the fields? later...
+    const args = {
+      'name': request.name || (request.user + '-' + Date.now()),
+      'creator': request.user,
+      'data': request.routine,
+      'type': request.type,
+      // 'category': request.category,
+    };
+
+    const headers = getValidToken();
+    headers['Content-Type'] = 'application/json';
+
+    fetch(API_HOST + 'routine', {
+      method: 'POST',
+      headers,
+      body: JSON.stringify(args)
+    })
+      .then(res => {
+        console.log(res.ok);
+        console.log(res.status);
+        console.log(res.statusText);
+        if (res.status !== 200) {
+          reject(res.status)
+        }
+        resolve(res.text())
+      }).catch(err => {
+        console.log(err);
+        reject(err);
+      });
+
+  });
+}
+
 export default  {
     health,
     login,
@@ -269,5 +304,6 @@ export default  {
     exercisePost,
     exercisePatch,
     exerciseDelete,
-    exerciseSubscribe
+    exerciseSubscribe,
+    routinePost,
 }

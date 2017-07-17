@@ -50,7 +50,8 @@ const style = {
 class ExerciseCard extends Component {
 
     render() {
-      const { id, name, isDragging, connectDragSource, connectDropTarget, recordFields, data, updateExercise } = this.props;
+      const { id, name, isDragging, connectDragSource,
+        connectDropTarget, recordFields, data, updateExercise, removeExercise } = this.props;
       const opacity = isDragging ? 0 : 1;
 
       return connectDragSource(connectDropTarget(
@@ -68,6 +69,7 @@ class ExerciseCard extends Component {
               />
             )
           })}
+          <a onClick={removeExercise}><i className="fa fa-remove fa-2x" id="remove_exercise_icon"></i></a>
         </div>,
       ));
     }
@@ -84,6 +86,7 @@ ExerciseCard.PropTypes = {
   updateExercise: PropTypes.func.isRequired,
   moveExercise: PropTypes.func.isRequired,
   findExercise: PropTypes.func.isRequired,
+  removeExercise: PropTypes.func.isRequired,
 }
 
 // Until we have ES7 decorators, this way we can easily extend Routine with both functions
