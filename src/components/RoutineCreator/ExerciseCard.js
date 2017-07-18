@@ -69,7 +69,7 @@ class ExerciseCard extends Component {
               />
             )
           })}
-          <a onClick={removeExercise}><i className="fa fa-remove fa-2x" id="remove_exercise_icon"></i></a>
+          <a onClick={() => removeExercise(id)}><i className="fa fa-remove fa-2x" id="remove_exercise_icon"></i></a>
         </div>,
       ));
     }
