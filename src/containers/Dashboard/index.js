@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
-import { AdminRoute } from '../Helpers';
+import { AdminRoute, PropsRoute } from '../Helpers';
 import UserPage from '../../components/UserPage';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
-import Card from '../../components/Card';
+import Calendar from '../../containers/Calendar';
 import Exercises from '../../components/Exercises';
 import SidebarLayout from '../SidebarLayout';
 import About from '../../components/About';
@@ -22,7 +22,7 @@ class Dashboard extends Component {
   render() {
     const routes = (
         <div style={{width: '100%'}}>
-          <Route exact path={this.props.match.url} component={Card}/>
+          <PropsRoute exact path={this.props.match.url} component={Calendar} calendar={this.props.user.calendar} />
           <Route exact path={`${this.props.match.url}/404`} render={() => <div>TODO: 404 page</div>} />
           <Route exact path={`${this.props.match.url}/about`} component={About}/>
           <Route exact path={`${this.props.match.url}/user/:username`} component={UserPage}/>

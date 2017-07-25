@@ -5,6 +5,9 @@ import './Card.css'
 class Card extends Component {
 
   render() {
+
+    const background =  this.props.bgImage || img
+
     return (
       // TODO: Pasar un 'nivel' para destacar tarjetas especiales, como PRs usando CSS
       // <section className={'SpecialCard SpecialCard-' + props.level}>
@@ -12,12 +15,13 @@ class Card extends Component {
       <section className="cards">
         <article className="card">
           <a>
-            <figure className="thumbnail">
-            <img src={img} alt="meow"></img>
+            <figure className="header" style={ {"backgroundImage": `url(${background})`}}>
+              {this.props.h1 && <div className="card-h1"> {this.props.h1} </div>}
+              {this.props.h2 && <div className="card-h2"> {this.props.h2} </div>}
+              {this.props.h3 && <div className="card-h3"> {this.props.h3} </div>}
             </figure>
             <div className="card-content">
-              <h2>Whiskey</h2>
-              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatum explicabo consequatur consectetur fugit molestias perferendis, sint error iste ut, facilis sunt natus optio dolor nesciunt laboriosam obcaecati corporis numquam.</p>
+              {this.props.children}
             </div>
           </a>
         </article>

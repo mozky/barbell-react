@@ -36,6 +36,31 @@ img {
   height: auto;
 }
 
+.header {
+  height: 15em;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.card-h1 {
+  line-height: 90%;
+  color: white;
+  font-size: 5em;
+}
+
+.card-h2 {
+  color: white;
+  font-size: 2em;
+}
+
+.card-h3 {
+  color: #BBB;
+  font-size: 1em;
+}
+
  /*Flexbox styles */
 /*@media screen and (min-width: 40em) {
   .cards {
