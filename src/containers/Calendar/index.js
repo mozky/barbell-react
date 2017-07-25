@@ -47,17 +47,14 @@ export default class Calendar extends Component {
     const date = now.getDate()
     const weekday = now.toLocaleString(locale, { weekday: "long" })
     const monthYear = `${now.toLocaleString(locale, { month: "long" })}, ${now.getFullYear()}`
+    const leftArrow = <i className="fa fa-chevron-left" aria-hidden="true" onClick={this.subtractDay}></i>
+    const rightArrow = <i className="fa fa-chevron-right" aria-hidden="true" onClick={this.addDay}></i>
 
     return (
-      <Card bgImage={img}
-        h1={ date }
-        h2={ weekday }
-        h3={ monthYear }>
+      <Card background={img} h1={ date } h2={ weekday } h3={ monthYear } left={leftArrow} right={rightArrow}>
         <h2>Whiskey</h2>
         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatum explicabo consequatur consectetur fugit molestias perferendis, sint error iste ut, facilis sunt natus optio dolor nesciunt laboriosam obcaecati corporis numquam.</p>
-        <button type="button" onClick={this.subtractDay}>-1 Day</button>
         <button type="button" onClick={() => {this.updateDate(new Date())} }>Today</button>
-        <button type="button" onClick={this.addDay}>+1 Day</button>
       </Card>
     )
   }
