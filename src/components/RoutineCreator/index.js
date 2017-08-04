@@ -7,7 +7,7 @@ export default class RoutineCreator extends Component {
   render() {
     return (
       <div>
-        <Routine type='simple' style={{width: '100%'}}/>
+        <Routine type='simple' style={{width: '100%'}} user={this.props.user}/>
       </div>
     );
   }

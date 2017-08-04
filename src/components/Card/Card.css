@@ -18,7 +18,7 @@ h2 {
 }
 
 .card-content {
-	padding: 1.4em;
+	padding: 2.4em 1.4em;
 }
 
 .card-content h2 {
@@ -84,4 +84,21 @@ h2 {
 .card-h3 {
   color: #BBB;
   font-size: 1em;
+}
+
+.centered {
+  text-align: center;
+}
+
+.faded {
+  color: 255 255 255 0.4;
+}
+
+.faded p {
+  font-weight: lighter;
+}
+
+#new_routine {
+  font-size: 5em;
+  color: grey;
 }

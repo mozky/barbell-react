@@ -264,8 +264,8 @@ function routinePost(request) {
   return new Promise(function (resolve, reject) {
     // TODO: Validate the fields? later...
     const args = {
-      'name': request.name || (request.user + '-' + Date.now()),
-      'creator': request.user,
+      'name': request.name || (request.username + '-' + Date.now()),
+      'creator': request.userId,
       'data': request.routine,
       'type': request.type,
       // 'category': request.category,

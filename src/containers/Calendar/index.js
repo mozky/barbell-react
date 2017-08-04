@@ -52,9 +52,11 @@ export default class Calendar extends Component {
 
     return (
       <Card background={img} h1={ date } h2={ weekday } h3={ monthYear } left={leftArrow} right={rightArrow}>
-        <h2>Whiskey</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatum explicabo consequatur consectetur fugit molestias perferendis, sint error iste ut, facilis sunt natus optio dolor nesciunt laboriosam obcaecati corporis numquam.</p>
-        <button type="button" onClick={() => {this.updateDate(new Date())} }>Today</button>
+        <div className="centered faded">
+          <i id="new_routine" className="fa fa-calendar-plus-o" aria-hidden="true"></i>
+          <p>Subscribe to a routine program or create your own.</p>
+        </div>
+        {/* <button type="button" onClick={() => {this.updateDate(new Date())} }>Today</button> */}
       </Card>
     )
   }

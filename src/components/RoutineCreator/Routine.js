@@ -43,6 +43,7 @@ class Routine extends Component {
     };
   }
 
+  // MANDAR ESTO COMO PROPS DESDE EL CONTAINER PRINCIPAL
   componentWillMount() {
     Api.exerciseListGet().then((response) => {
       let exercisesList = [];
@@ -124,9 +125,11 @@ class Routine extends Component {
     }));
   }
 
+  // Subir esto a el container principal, ya que realiza funciones fuera de la rutina
   saveRoutine() {
     const request = {
-      user: 'moz',
+      username: this.props.user.username,
+      userId: this.props.user._id,
       type: 'simple',
       routine: { exercises: this.state.exercises },
 
