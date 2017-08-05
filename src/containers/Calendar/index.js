@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import img from '../../images/background.png'
 import Card from '../../components/Card'
-import update from 'immutability-helper';
+import update from 'immutability-helper'
+import Multimap from 'multimap'
 
 export default class Calendar extends Component {
   constructor(props) {
@@ -17,7 +18,7 @@ export default class Calendar extends Component {
   }
 
   createEvents(user) {
-    let events = new Map()
+    let events = new Multimap()
 
     // Adds records to events
     user.records.forEach(record => {
@@ -60,10 +61,12 @@ export default class Calendar extends Component {
     const rightArrow = <i className="fa fa-chevron-right" aria-hidden="true" onClick={this.addDay}></i>
 
     let content
-    var eventsIter = this.state.events.keys()
 
+    // Search the events multimap for events on the selected date
     if (this.state.events.has(now.toDateString())) {
-      content = <div className="centered faded">Si tenemos evento!</div>
+      content = this.state.events.get(now.toDateString()).map(event => {
+        return <div className="centered faded" key={event._id}>{ event.name }</div>
+      })
     } else {
       content = (
         <div className="centered faded">
@@ -75,7 +78,7 @@ export default class Calendar extends Component {
 
     return (
       <Card background={img} h1={ date } h2={ weekday } h3={ monthYear } left={leftArrow} right={rightArrow}>
-        {content}
+        { content }
         {/* <button type="button" onClick={() => {this.updateDate(new Date())} }>Today</button> */}
       </Card>
     )
