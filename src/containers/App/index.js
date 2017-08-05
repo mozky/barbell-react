@@ -83,12 +83,13 @@ class App extends Component {
             <Route exact path="/" component={Landing} />
 
             <PropsRoute path="/auth" component={Authenticate}
-            loadApp={this.loadApp} />
+              loadApp={this.loadApp} />
 
             <PrivateRoute path="/app" component={Dashboard}
-            user={this.state.user}
-            isLoggedIn={this.state.isLoggedIn}
-            handleLogout={this.handleLogout} redirectTo="/auth" />
+              user={this.state.user}
+              admin={this.state.token.admin}
+              isLoggedIn={this.state.isLoggedIn}
+              handleLogout={this.handleLogout} redirectTo="/auth" />
 
           </Switch>
         </Router>

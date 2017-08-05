@@ -55,13 +55,13 @@ class UserPage extends Component {
       return(
         <div>
           <h2>Hi {this.state.user.username}</h2>
-          <h3 style={{"font-weight": "bold"}}>Records</h3>
+          <h3 style={{"fontWeight": "bold"}}>Records</h3>
           <br></br>
           <ul>
             {userRecords}
           </ul>
           <br></br>
-          <h3 style={{"font-weight": "bold"}}>Routines</h3>
+          <h3 style={{"fontWeight": "bold"}}>Routines</h3>
           <br></br>
           <ul>
             {userRoutines}

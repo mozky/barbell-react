@@ -30,7 +30,7 @@ class Dashboard extends Component {
           <AdminRoute exact path={`${this.props.match.url}/exercises`}
             component={Exercises}
             redirectTo={"/app"}
-            isAdmin={this.props.user.admin}
+            isAdmin={this.props.admin}
           />
         </div>
     );
@@ -40,7 +40,7 @@ class Dashboard extends Component {
         return (
           <div className="app dashboard">
             <Header username={this.props.user.username} handleLogout={this.props.handleLogout} />
-            <SidebarLayout username={this.props.user.username} isAdmin={this.props.user.admin}>
+            <SidebarLayout username={this.props.user.username} isAdmin={this.props.admin}>
               {routes}
             </SidebarLayout>
             <Footer />

@@ -42,9 +42,7 @@ function login(request) {
       body: JSON.stringify(args)
     })
       .then(res => {
-        console.log(res.ok);
-        console.log(res.status);
-        console.log(res.statusText);
+        console.log('POST LOGIN', res.ok, res.status, res.statusText);
         if (res.status !== 200) {
           reject(res.status)
         }
@@ -88,9 +86,7 @@ function register(request) {
       body: JSON.stringify(args)
     })
       .then(res => {
-        console.log(res.ok);
-        console.log(res.status);
-        console.log(res.statusText);
+        console.log('POST REGISTER', res.ok, res.status, res.statusText);
         if (res.status !== 200) {
           reject(res.status)
         }
@@ -124,9 +120,7 @@ function userGet(username) {
       headers
     })
       .then(res => {
-        console.log(res.ok);
-        console.log(res.status);
-        console.log(res.statusText);
+        console.log('GET USER', res.ok, res.status, res.statusText);
         if (res.status === 200) {
           resolve(res.text());
         } else {
@@ -148,9 +142,7 @@ function exerciseListGet() {
       headers
     })
       .then(res => {
-        console.log(res.ok);
-        console.log(res.status);
-        console.log(res.statusText);
+        console.log('GET EXERCISE LIST', res.ok, res.status, res.statusText);
         if (res.status !== 200) {
           reject(res.status);
         }
@@ -179,9 +171,7 @@ function exercisePost(request) {
       body: JSON.stringify(args)
     })
       .then(res => {
-        console.log(res.ok);
-        console.log(res.status);
-        console.log(res.statusText);
+        console.log('POST EXERCISE', res.ok, res.status, res.statusText);
         if (res.status !== 200) {
           reject(res.status)
         }
@@ -207,9 +197,7 @@ function exercisePatch(exerciseId, updates) {
       body: JSON.stringify(updates)
     })
       .then(res => {
-        console.log(res.ok);
-        console.log(res.status);
-        console.log(res.statusText);
+        console.log('PATCH EXERCISE', res.ok, res.status, res.statusText);
         if (res.status !== 200) {
           reject(res.status)
         }
@@ -234,9 +222,7 @@ function exerciseDelete(exerciseId) {
       headers
     })
       .then(res => {
-        console.log(res.ok);
-        console.log(res.status);
-        console.log(res.statusText);
+        console.log('DELETE EXERCISE', res.ok, res.status, res.statusText);
         if (res.status !== 200) {
           reject(res.status)
         }
@@ -280,9 +266,7 @@ function routinePost(request) {
       body: JSON.stringify(args)
     })
       .then(res => {
-        console.log(res.ok);
-        console.log(res.status);
-        console.log(res.statusText);
+        console.log('POST TOKEN', res.ok, res.status, res.statusText);
         if (res.status !== 200) {
           reject(res.status)
         }
