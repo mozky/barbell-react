@@ -1,79 +1,102 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import {
   BrowserRouter as Router,
   Route,
   Switch,
-} from 'react-router-dom';
-import Landing from '../../components/Landing';
-import Dashboard from '../Dashboard';
-import Authenticate from '../Authenticate';
-import { PropsRoute, PrivateRoute } from '../Helpers';
-import { ValidateToken } from '../../helpers';
-import './App.css';
+} from 'react-router-dom'
+import Landing from '../../components/Landing'
+import Dashboard from '../Dashboard'
+import Authenticate from '../Authenticate'
+import { PropsRoute, PrivateRoute } from '../Helpers'
+import { ValidateToken } from '../../helpers'
+import Api from '../../api'
+import './App.css'
 
 class App extends Component {
   constructor(props) {
-    super(props);
-    this.loadApp = this.loadApp.bind(this);
-    this.handleLogout = this.handleLogout.bind(this);
+    super(props)
+    this.loadApp = this.loadApp.bind(this)
+    this.handleLogout = this.handleLogout.bind(this)
 
-    let localToken;
-    let userInfo;
-    if (window.localStorage)
-      localToken = window.localStorage.getItem('API_TOKEN');
+    let localToken
+    let tokenData
+    if (window.localStorage) {
+      localToken = window.localStorage.getItem('API_TOKEN')
+    }
 
-      localToken ? (
-        userInfo = ValidateToken(localToken)
-      ) : (
-        userInfo = false
-      );
+    localToken ? (
+      tokenData = ValidateToken(localToken)
+    ) : (
+      tokenData = false
+    )
 
     this.state = {
-      isLoggedIn: (userInfo ? true : false),
-      user: (userInfo ? userInfo : 'null'),
+      isLoggedIn: (tokenData ? true : false),
+      token: (tokenData ? tokenData : 'null'),
+      user: 'null'
     }
 
   }
 
-  loadApp (user) {
-    console.log('Loading app...');
+  loadApp (token) {
+    console.log('Loading app...')
     this.setState({
       isLoggedIn: true,
-      user
-    });
-  }
-
-  handleLogout () {
-
-    window.localStorage.removeItem('API_TOKEN');
-
-    this.setState({
-      isLoggedIn: false,
-      user: 'null'
+      token
     })
   }
 
+  handleLogout () {
+    window.localStorage.removeItem('API_TOKEN')
+    this.setState({
+      isLoggedIn: false,
+      token: 'null'
+    })
+  }
+
+  componentDidMount() {
+    if ( this.state.token !== 'null' && this.state.token.username ) {
+      Api.userGet(this.state.token.username).then((response) => {
+        let user = 'null'
+        if (JSON.parse(response).user) {
+          user = JSON.parse(response).user
+        }
+        this.setState({
+          user
+        })
+      }).catch((err) => {
+        console.log(err)
+      })
+    }
+  }
 
   render() {
 
-    return (
-      <Router>
-        <Switch>
-          <Route exact path="/" component={Landing} />
+    if (this.state.user === 'null') {
+      return (
+        <div>Loading app...</div>
+      )
+    } else {
+      return (
+        <Router>
+          <Switch>
+            <Route exact path="/" component={Landing} />
 
-          <PropsRoute path="/auth" component={Authenticate}
+            <PropsRoute path="/auth" component={Authenticate}
             loadApp={this.loadApp} />
 
-          <PrivateRoute path="/app" component={Dashboard}
+            <PrivateRoute path="/app" component={Dashboard}
             user={this.state.user}
             isLoggedIn={this.state.isLoggedIn}
             handleLogout={this.handleLogout} redirectTo="/auth" />
 
-        </Switch>
-      </Router>
-    )
+          </Switch>
+        </Router>
+      )
+    }
+
   }
 
 }
 
-export default App;
+export default App

@@ -9,18 +9,27 @@ export default class Calendar extends Component {
     this.addDay = this.addDay.bind(this)
     this.subtractDay = this.subtractDay.bind(this)
     this.updateDate = this.updateDate.bind(this)
+    this.createEvents = this.createEvents.bind(this)
     this.state = {
       activeDay: new Date(),
-      events: []
+      events: this.createEvents(this.props.user),
     }
   }
 
-  componentDidMount() {
-    if (this.props.calendar) {
-      console.log('TODO: Add events to calendar');
-    } else {
-      console.log('TODO: Make API call to get events for user');
-    }
+  createEvents(user) {
+    let events = new Map()
+
+    // Adds records to events
+    user.records.forEach(record => {
+      events.set(new Date(record.date).toDateString(), record)
+    })
+
+    // Adds routines to events
+    user.routines.forEach(routine => {
+      // TODO: Change this to date that the routine will be done, maybe this needs to be other data ??OWN SUBSCRIPTION??
+      events.set(new Date(routine.dateCreated).toDateString(), routine)
+    })
+    return events
   }
 
   addDay() {
@@ -50,12 +59,23 @@ export default class Calendar extends Component {
     const leftArrow = <i className="fa fa-chevron-left" aria-hidden="true" onClick={this.subtractDay}></i>
     const rightArrow = <i className="fa fa-chevron-right" aria-hidden="true" onClick={this.addDay}></i>
 
-    return (
-      <Card background={img} h1={ date } h2={ weekday } h3={ monthYear } left={leftArrow} right={rightArrow}>
+    let content
+    var eventsIter = this.state.events.keys()
+
+    if (this.state.events.has(now.toDateString())) {
+      content = <div className="centered faded">Si tenemos evento!</div>
+    } else {
+      content = (
         <div className="centered faded">
           <i id="new_routine" className="fa fa-calendar-plus-o" aria-hidden="true"></i>
           <p>Subscribe to a routine program or create your own.</p>
         </div>
+      )
+    }
+
+    return (
+      <Card background={img} h1={ date } h2={ weekday } h3={ monthYear } left={leftArrow} right={rightArrow}>
+        {content}
         {/* <button type="button" onClick={() => {this.updateDate(new Date())} }>Today</button> */}
       </Card>
     )

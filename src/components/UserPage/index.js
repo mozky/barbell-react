@@ -11,14 +11,23 @@ class UserPage extends Component {
 
     this.state = {
       urlParam: props.match.params.username,
+      user: {
+        _id: 'null',
+        username: 'null',
+        email: 'null',
+        profile: {},
+        routines: [],
+        records: []
+      }
     }
   }
 
+  // TODO: Check if this is the logged in user page, so we can skip this query and change the page layout
   componentDidMount() {
     Api.userGet(this.state.urlParam).then((response) => {
       let user = 'null'
-      if (JSON.parse(response)) {
-        user = response
+      if (JSON.parse(response).user) {
+        user = JSON.parse(response).user
       }
       this.setState({
         user: user
@@ -35,8 +44,29 @@ class UserPage extends Component {
         state: { referrer: this.props.location }
       }}/>)
     } else {
+      const userRecords = this.state.user.records.map(record => {
+        return (<li key={record._id}>{record.date}</li>)
+      })
+
+      const userRoutines = this.state.user.routines.map(routine => {
+        return (<li key={routine._id}>{routine.name}</li>)
+      })
+
       return(
-        <h3>Hi {this.state.user}</h3>
+        <div>
+          <h2>Hi {this.state.user.username}</h2>
+          <h3 style={{"font-weight": "bold"}}>Records</h3>
+          <br></br>
+          <ul>
+            {userRecords}
+          </ul>
+          <br></br>
+          <h3 style={{"font-weight": "bold"}}>Routines</h3>
+          <br></br>
+          <ul>
+            {userRoutines}
+          </ul>
+        </div>
       );
     }
 
