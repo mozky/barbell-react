@@ -15,8 +15,6 @@ class Sidebar extends Component {
           <br />
           <NavLink exact to={"/app/user/" + this.props.username} activeClassName="current">My Page</NavLink>
           <br />
-          <NavLink exact to={"/app/new"} activeClassName="current">Routine Creator (Alpha)</NavLink>
-          <br />
           {this.props.isAdmin && <NavLink to="/app/exercises" activeClassName="current">Exercises</NavLink>}
         </ul>
       </aside>

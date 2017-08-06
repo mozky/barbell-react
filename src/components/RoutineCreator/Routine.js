@@ -107,7 +107,7 @@ class Routine extends Component {
 
   render() {
     // const { type } = this.props.type
-    const { connectDropTarget, exercisesList } = this.props
+    const { connectDropTarget, exercisesList, saveRoutine } = this.props
     const { exercises } = this.state
 
     return connectDropTarget(
@@ -130,7 +130,7 @@ class Routine extends Component {
           handleChange={this.handleNewExercise}
           exercises={exercisesList}
         />
-        <button id="save-routine-button" type="button" onClick={() => this.props.saveRoutine({"exercises":this.state.exercises})}>Save Routine</button>
+        <button id="save-routine-button" type="button" onClick={() => saveRoutine({exercises})}>Save Routine</button>
       </div>
     )
   }
@@ -138,8 +138,8 @@ class Routine extends Component {
 
 Routine.propTypes = {
   type: PropTypes.string,
-  exercisesList: PropTypes.array.isRequired,
   saveRoutine: PropTypes.func.isRequired,
+  exercisesList: PropTypes.array.isRequired,
   connectDropTarget: PropTypes.func.isRequired,
 }
 
