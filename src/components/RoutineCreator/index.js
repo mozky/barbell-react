@@ -7,6 +7,7 @@ import Api from '../../api'
 export default class RoutineCreator extends Component {
   constructor(props) {
     super(props)
+    this.saveRoutine = this.saveRoutine.bind(this)
     this.state = {
       exercisesList: null
     }
@@ -29,11 +30,31 @@ export default class RoutineCreator extends Component {
     })
   }
 
+  saveRoutine(routine) {
+    const request = {
+      username: this.props.user.username,
+      userId: this.props.user._id,
+      type: 'simple',
+      routine,
+    }
+
+    console.log(request);
+
+    Api.routinePost(request).then((response) => {
+      console.log(response)
+    }).catch((err) => {
+      console.log(err)
+    })
+  }
+
   render() {
     return this.state.exercisesList ?
       (
         <div>
-          <Routine type='simple' style={{width: '100%'}} exercisesList={this.state.exercisesList} user={this.props.user}/>
+          <Routine type='simple' style={{width: '100%'}}
+            exercisesList={this.state.exercisesList}
+            saveRoutine={this.saveRoutine}
+            user={this.props.user}/>
         </div>
       ) : (
         <p>Loading exercises</p>

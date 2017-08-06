@@ -7,7 +7,6 @@ import flow from 'lodash/flow'
 import ExerciseCard from './ExerciseCard'
 import SearchExercise from './SearchExercise'
 import * as Types from '../../types'
-import Api from '../../api'
 
 const cardTarget = {
   drop() {
@@ -20,7 +19,6 @@ class Routine extends Component {
     this.moveExercise = this.moveExercise.bind(this)
     this.findExercise = this.findExercise.bind(this)
     this.updateExercise = this.updateExercise.bind(this)
-    this.saveRoutine = this.saveRoutine.bind(this)
     this.removeExercise = this.removeExercise.bind(this)
     this.handleNewExercise = this.handleNewExercise.bind(this)
     this.state = {
@@ -107,22 +105,6 @@ class Routine extends Component {
     }))
   }
 
-  // Subir esto a el container principal, ya que realiza funciones fuera de la rutina
-  saveRoutine() {
-    const request = {
-      username: this.props.user.username,
-      userId: this.props.user._id,
-      type: 'simple',
-      routine: { exercises: this.state.exercises },
-
-    }
-    Api.routinePost(request).then((response) => {
-      console.log(response)
-    }).catch((err) => {
-      console.log(err)
-    })
-  }
-
   render() {
     // const { type } = this.props.type
     const { connectDropTarget, exercisesList } = this.props
@@ -148,7 +130,7 @@ class Routine extends Component {
           handleChange={this.handleNewExercise}
           exercises={exercisesList}
         />
-        <button id="save-routine-button" type="button" onClick={this.saveRoutine}>Save Routine</button>
+        <button id="save-routine-button" type="button" onClick={() => this.props.saveRoutine({"exercises":this.state.exercises})}>Save Routine</button>
       </div>
     )
   }
@@ -157,6 +139,7 @@ class Routine extends Component {
 Routine.propTypes = {
   type: PropTypes.string,
   exercisesList: PropTypes.array.isRequired,
+  saveRoutine: PropTypes.func.isRequired,
   connectDropTarget: PropTypes.func.isRequired,
 }
 

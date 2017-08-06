@@ -266,7 +266,7 @@ function routinePost(request) {
       body: JSON.stringify(args)
     })
       .then(res => {
-        console.log('POST TOKEN', res.ok, res.status, res.statusText);
+        console.log('POST ROUTINE', res.ok, res.status, res.statusText);
         if (res.status !== 200) {
           reject(res.status)
         }
