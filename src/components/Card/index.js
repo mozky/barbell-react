@@ -27,11 +27,9 @@ class Card extends Component {
                 {this.props.right}
               </div>
             </figure>
-          <a>
             <div className="card-content">
               {this.props.children}
             </div>
-          </a>
         </article>
       </section>
     )

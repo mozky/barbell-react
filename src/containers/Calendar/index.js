@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import img from '../../images/background.png'
 import Card from '../../components/Card'
+import RoutineCreator from '../../components/RoutineCreator'
 import update from 'immutability-helper'
 import Multimap from 'multimap'
 
@@ -11,9 +12,12 @@ export default class Calendar extends Component {
     this.subtractDay = this.subtractDay.bind(this)
     this.updateDate = this.updateDate.bind(this)
     this.createEvents = this.createEvents.bind(this)
+    this.createRoutine = this.createRoutine.bind(this)
+    this.routineCreator = this.routineCreator.bind(this)
     this.state = {
       activeDay: new Date(),
       events: this.createEvents(this.props.user),
+      creatingRoutine: false,
     }
   }
 
@@ -51,6 +55,26 @@ export default class Calendar extends Component {
     }))
   }
 
+  createRoutine() {
+    this.setState(update(this.state, {
+      creatingRoutine: {
+        $set: true
+      }
+    }))
+  }
+
+  routineCreator() {
+    return this.state.creatingRoutine ?
+      (
+        <RoutineCreator user={this.props.user} />
+      ) : (
+        <a onClick={this.createRoutine}>
+          <i id="new_routine" className="fa fa-calendar-plus-o" aria-hidden="true"></i>
+          <p>Create new routine</p>
+        </a>
+      )
+  }
+
   render() {
     const now = this.state.activeDay
     const locale = "en-us"
@@ -70,8 +94,7 @@ export default class Calendar extends Component {
     } else {
       content = (
         <div className="centered faded">
-          <i id="new_routine" className="fa fa-calendar-plus-o" aria-hidden="true"></i>
-          <p>Subscribe to a routine program or create your own.</p>
+          { this.routineCreator() }
         </div>
       )
     }
