@@ -42,6 +42,16 @@ export default class RoutineCreator extends Component {
 
     Api.routinePost(request).then((response) => {
       console.log(response)
+      const routineResponse = JSON.parse(response)
+
+      if (!routineResponse || routineResponse.code !== 200 || !routineResponse.body || !routineResponse.body._id)
+        console.log('Error creation routine')
+
+      // Trigggering create subscription if it exists as prop
+      if (this.props.createSubscription) {
+        this.props.createSubscription(routineResponse.body._id)
+      }
+
     }).catch((err) => {
       console.log(err)
     })

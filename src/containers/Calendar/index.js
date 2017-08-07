@@ -3,17 +3,19 @@ import img from '../../images/background.png'
 import Card from '../../components/Card'
 import RoutineCreator from '../../components/RoutineCreator'
 import update from 'immutability-helper'
+import Api from '../../api'
 import Multimap from 'multimap'
 
 export default class Calendar extends Component {
   constructor(props) {
     super(props)
     this.addDay = this.addDay.bind(this)
-    this.subtractDay = this.subtractDay.bind(this)
     this.updateDate = this.updateDate.bind(this)
+    this.subtractDay = this.subtractDay.bind(this)
     this.createEvents = this.createEvents.bind(this)
     this.createRoutine = this.createRoutine.bind(this)
     this.routineCreator = this.routineCreator.bind(this)
+    this.createSubscription = this.createSubscription.bind(this)
     this.state = {
       activeDay: new Date(),
       events: this.createEvents(this.props.user),
@@ -26,13 +28,24 @@ export default class Calendar extends Component {
 
     // Adds records to events
     user.records.forEach(record => {
-      events.set(new Date(record.date).toDateString(), record)
+      events.set(
+        new Date(record.date).toDateString(),
+        {
+          type: 'record',
+          data: record
+        }
+      )
     })
 
-    // Adds routines to events
-    user.routines.forEach(routine => {
-      // TODO: Change this to date that the routine will be done, maybe this needs to be other data ??OWN SUBSCRIPTION??
-      events.set(new Date(routine.dateCreated).toDateString(), routine)
+    // Adds subscriptions to events
+    user.subscriptions.forEach(subscription => {
+      events.set(
+        new Date(subscription.date).toDateString(),
+        {
+          type: 'subscription',
+          data: subscription
+        }
+      )
     })
     return events
   }
@@ -63,10 +76,28 @@ export default class Calendar extends Component {
     }))
   }
 
+  createSubscription(routineId) {
+    Api.subscriptionPost({
+      userId: this.props.user._id,
+      routineId: routineId,
+      subscriptionDate: this.state.activeDay
+    }).then((response) => {
+      console.log(response)
+      const subscriptionResponse = JSON.parse(response)
+
+      if (subscriptionResponse.code !== 200) {
+        console.log('error creating subscription')
+      }
+
+    })
+  }
+
   routineCreator() {
     return this.state.creatingRoutine ?
       (
-        <RoutineCreator user={this.props.user} />
+        <RoutineCreator
+          createSubscription={this.createSubscription}
+          user={this.props.user} />
       ) : (
         <a onClick={this.createRoutine}>
           <i id="new_routine" className="fa fa-calendar-plus-o" aria-hidden="true"></i>
@@ -89,7 +120,7 @@ export default class Calendar extends Component {
     // Search the events multimap for events on the selected date
     if (this.state.events.has(now.toDateString())) {
       content = this.state.events.get(now.toDateString()).map(event => {
-        return <div className="centered faded" key={event._id}>{ event.name }</div>
+        return <div className="centered faded" key={event.data._id}>{ event.type } - {event.data._id}</div>
       })
     } else {
       content = (

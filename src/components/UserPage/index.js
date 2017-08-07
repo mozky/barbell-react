@@ -17,7 +17,8 @@ class UserPage extends Component {
         email: 'null',
         profile: {},
         routines: [],
-        records: []
+        records: [],
+        subscriptions: []
       }
     }
   }
@@ -52,6 +53,10 @@ class UserPage extends Component {
         return (<li key={routine._id}>{routine.name}</li>)
       })
 
+      const userSubscriptions = this.state.user.subscriptions.map(subscription => {
+        return (<li key={subscription._id}>{subscription.date}</li>)
+      })
+
       return(
         <div>
           <h2>Hi {this.state.user.username}</h2>
@@ -59,6 +64,12 @@ class UserPage extends Component {
           <br></br>
           <ul>
             {userRecords}
+          </ul>
+          <br></br>
+          <h3 style={{"fontWeight": "bold"}}>Subscriptions</h3>
+          <br></br>
+          <ul>
+            {userSubscriptions}
           </ul>
           <br></br>
           <h3 style={{"fontWeight": "bold"}}>Routines</h3>
