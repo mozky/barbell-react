@@ -84,11 +84,9 @@ export default class Calendar extends Component {
     }).then((response) => {
       console.log(response)
       const subscriptionResponse = JSON.parse(response)
-
       if (subscriptionResponse.code !== 200) {
         console.log('error creating subscription')
       }
-
     })
   }
 
@@ -120,7 +118,28 @@ export default class Calendar extends Component {
     // Search the events multimap for events on the selected date
     if (this.state.events.has(now.toDateString())) {
       content = this.state.events.get(now.toDateString()).map(event => {
-        return <div className="centered faded" key={event.data._id}>{ event.type } - {event.data._id}</div>
+        switch(event.type) {
+          case 'subscription':
+            const subscription = event.data
+            console.log(subscription)
+            return (
+              <div className="centered faded" key={subscription._id}>
+                <h2>{subscription.routine.name}</h2>
+                { JSON.stringify(subscription.routine) }
+              </div>
+            )
+          case 'record':
+            const record = event.data
+            console.log(record)
+            return (
+              <div className="centered faded" key={record._id}>
+                <h2>Record for {record.routine.name}</h2>
+                { JSON.stringify(record) }
+              </div>
+            )
+          default:
+            return <h3>Unknown shit</h3>
+        }
       })
     } else {
       content = (
