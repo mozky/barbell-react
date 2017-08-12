@@ -27,26 +27,31 @@ export default class Calendar extends Component {
     let events = new Multimap()
 
     // Adds records to events
-    user.records.forEach(record => {
-      events.set(
-        new Date(record.date).toDateString(),
-        {
-          type: 'record',
-          data: record
-        }
-      )
-    })
+    if (user.records) {
+      user.records.forEach(record => {
+        events.set(
+          new Date(record.date).toDateString(),
+          {
+            type: 'record',
+            data: record
+          }
+        )
+      })
+    }
 
     // Adds subscriptions to events
-    user.subscriptions.forEach(subscription => {
-      events.set(
-        new Date(subscription.date).toDateString(),
-        {
-          type: 'subscription',
-          data: subscription
-        }
-      )
-    })
+    if (user.subscriptions) {
+      user.subscriptions.forEach(subscription => {
+        events.set(
+          new Date(subscription.date).toDateString(),
+          {
+            type: 'subscription',
+            data: subscription
+          }
+        )
+      })
+    }
+    
     return events
   }
 

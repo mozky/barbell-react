@@ -16,6 +16,7 @@ class App extends Component {
   constructor(props) {
     super(props)
     this.loadApp = this.loadApp.bind(this)
+    this.getUserData = this.getUserData.bind(this)
     this.handleLogout = this.handleLogout.bind(this)
 
     let localToken
@@ -38,23 +39,7 @@ class App extends Component {
 
   }
 
-  loadApp (token) {
-    console.log('Loading app...')
-    this.setState({
-      isLoggedIn: true,
-      token
-    })
-  }
-
-  handleLogout () {
-    window.localStorage.removeItem('API_TOKEN')
-    this.setState({
-      isLoggedIn: false,
-      token: 'null'
-    })
-  }
-
-  componentDidMount() {
+  getUserData() {
     if ( this.state.token !== 'null' && this.state.token.username ) {
       Api.userGet(this.state.token.username).then((response) => {
         let user = 'null'
@@ -70,11 +55,33 @@ class App extends Component {
     }
   }
 
+  loadApp(token) {
+    console.log('Loading app...')
+    this.setState({
+      isLoggedIn: true,
+      token
+    })
+    this.getUserData()
+  }
+
+  handleLogout() {
+    window.localStorage.removeItem('API_TOKEN')
+    this.setState({
+      isLoggedIn: false,
+      token: 'null',
+      user: 'null'
+    })
+  }
+
+  componentDidMount() {
+    this.getUserData()
+  }
+
   render() {
 
-    if (this.state.user === 'null') {
+    if (this.state.token && this.state.isLoggedIn && this.state.user === 'null') {
       return (
-        <div>Loading app...</div>
+        <div>Fetching your data, please w8...</div>
       )
     } else {
       return (
