@@ -1,10 +1,11 @@
-import React, { Component } from 'react'
-import img from '../../images/background.png'
-import Card from '../../components/Card'
 import RoutineCreator from '../../components/RoutineCreator'
+import img from '../../images/background.png'
+import React, { Component } from 'react'
+import Card from '../../components/Card'
 import update from 'immutability-helper'
-import Api from '../../api'
 import Multimap from 'multimap'
+import Api from '../../api'
+import './Calendar.css'
 
 export default class Calendar extends Component {
   constructor(props) {
@@ -16,6 +17,7 @@ export default class Calendar extends Component {
     this.createRoutine = this.createRoutine.bind(this)
     this.routineCreator = this.routineCreator.bind(this)
     this.createSubscription = this.createSubscription.bind(this)
+    this.closeRoutineCreator = this.closeRoutineCreator.bind(this)
     this.state = {
       activeDay: new Date(),
       events: this.createEvents(this.props.user),
@@ -51,7 +53,7 @@ export default class Calendar extends Component {
         )
       })
     }
-    
+
     return events
   }
 
@@ -81,6 +83,14 @@ export default class Calendar extends Component {
     }))
   }
 
+  closeRoutineCreator() {
+    this.setState(update(this.state, {
+      creatingRoutine: {
+        $set: false
+      }
+    }))
+  }
+
   createSubscription(routineId) {
     Api.subscriptionPost({
       userId: this.props.user._id,
@@ -92,15 +102,21 @@ export default class Calendar extends Component {
       if (subscriptionResponse.code !== 200) {
         console.log('error creating subscription')
       }
+      this.closeRoutineCreator()
     })
   }
 
   routineCreator() {
     return this.state.creatingRoutine ?
       (
-        <RoutineCreator
-          createSubscription={this.createSubscription}
-          user={this.props.user} />
+        <div>
+          <a onClick={this.closeRoutineCreator}>
+            <i id="close_routine" className="fa fa-remove" aria-hidden="true"></i>
+          </a>
+          <RoutineCreator
+            createSubscription={this.createSubscription}
+            user={this.props.user} />
+        </div>
       ) : (
         <a onClick={this.createRoutine}>
           <i id="new_routine" className="fa fa-calendar-plus-o" aria-hidden="true"></i>
@@ -110,8 +126,9 @@ export default class Calendar extends Component {
   }
 
   render() {
-    const now = this.state.activeDay
     const locale = "en-us"
+    const today = new Date()
+    const now = this.state.activeDay
     const date = now.getDate()
     const weekday = now.toLocaleString(locale, { weekday: "long" })
     const monthYear = `${now.toLocaleString(locale, { month: "long" })}, ${now.getFullYear()}`
@@ -126,13 +143,29 @@ export default class Calendar extends Component {
         switch(event.type) {
           case 'subscription':
             const subscription = event.data
-            console.log(subscription)
-            return (
-              <div className="centered faded" key={subscription._id}>
-                <h2>{subscription.routine.name}</h2>
-                { JSON.stringify(subscription.routine) }
-              </div>
-            )
+            // Conditional render subscription based on date, to see if it is expired
+            if (now.toDateString() === today.toDateString()) {
+              return (
+                <div className="centered faded" key={subscription._id}>
+                  <h2>GO WORKOUT {subscription.routine.name}</h2>
+                  { JSON.stringify(subscription.routine) }
+                </div>
+              )
+            } else if (now < today) {
+              return (
+                <div className="centered faded" key={subscription._id}>
+                  <h2>Missed subscription {subscription.routine.name}</h2>
+                  { JSON.stringify(subscription.routine) }
+                </div>
+              )
+            } else {
+              return (
+                <div className="centered faded" key={subscription._id}>
+                  <h2>Subscription {subscription.routine.name}</h2>
+                  { JSON.stringify(subscription.routine) }
+                </div>
+              )
+            }
           case 'record':
             const record = event.data
             console.log(record)
