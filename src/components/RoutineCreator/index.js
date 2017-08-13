@@ -75,7 +75,7 @@ export default class RoutineCreator extends Component {
     return this.state.exercisesList ?
       (
         <div>
-          <input type="text" onChange={(e) => this.changeName(e.target.value)} value={this.state.name || 'set a name...' }></input>
+          <input type="text" onChange={(e) => this.changeName(e.target.value)} placeholder="set a name..." value={this.state.name}></input>
           <Routine type='simple' style={{width: '100%'}}
             exercisesList={this.state.exercisesList}
             saveRoutine={this.saveRoutine}
