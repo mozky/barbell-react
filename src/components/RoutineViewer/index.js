@@ -23,14 +23,14 @@ export default class RoutineViewer extends Component {
     } else if (now < today) {
       return (
         <div className="centered faded" key={subscription._id}>
-          <h2>Missed subscription {routine.name}</h2>
+          <h2>MISSED {routine.name}</h2>
           { exerciseItems }
         </div>
       )
     } else {
       return (
         <div className="centered faded" key={subscription._id}>
-          <h2>Subscription {routine.name}</h2>
+          <h2>{routine.name}</h2>
           { exerciseItems }
         </div>
       )
