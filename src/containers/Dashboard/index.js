@@ -1,19 +1,18 @@
-import React, { Component } from 'react';
-import { Route } from 'react-router-dom';
-import { AdminRoute } from '../Helpers';
-import UserPage from '../../components/UserPage';
-import Header from '../../components/Header';
-import Footer from '../../components/Footer';
-import Card from '../../components/Card';
-import Exercises from '../../components/Exercises';
-import SidebarLayout from '../SidebarLayout';
-import About from '../../components/About';
-import RoutineCreator from '../../components/RoutineCreator';
+import React, { Component } from 'react'
+import { Route } from 'react-router-dom'
+import { AdminRoute, PropsRoute } from '../Helpers'
+import UserPage from '../../components/UserPage'
+import Header from '../../components/Header'
+import Footer from '../../components/Footer'
+import Calendar from '../../containers/Calendar'
+import Exercises from '../../components/Exercises'
+import SidebarLayout from '../SidebarLayout'
+import About from '../../components/About'
 
 class Dashboard extends Component {
 
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       layout: 'SidebarLayout'
     }
@@ -22,30 +21,29 @@ class Dashboard extends Component {
   render() {
     const routes = (
         <div style={{width: '100%'}}>
-          <Route exact path={this.props.match.url} component={Card}/>
+          <PropsRoute exact path={this.props.match.url} component={Calendar} user={this.props.user} />
           <Route exact path={`${this.props.match.url}/404`} render={() => <div>TODO: 404 page</div>} />
           <Route exact path={`${this.props.match.url}/about`} component={About}/>
           <Route exact path={`${this.props.match.url}/user/:username`} component={UserPage}/>
-          <Route exact path={`${this.props.match.url}/new`} component={RoutineCreator} />
           <AdminRoute exact path={`${this.props.match.url}/exercises`}
             component={Exercises}
             redirectTo={"/app"}
-            isAdmin={this.props.user.admin}
+            isAdmin={this.props.admin}
           />
         </div>
-    );
+    )
 
     switch (this.state.layout) {
       case 'SidebarLayout':
         return (
           <div className="app dashboard">
             <Header username={this.props.user.username} handleLogout={this.props.handleLogout} />
-            <SidebarLayout username={this.props.user.username} isAdmin={this.props.user.admin}>
+            <SidebarLayout username={this.props.user.username} isAdmin={this.props.admin}>
               {routes}
             </SidebarLayout>
             <Footer />
           </div>
-        );
+        )
       case 'FullWidthLayout':
         return (
           <div className="app dashboard">
@@ -57,13 +55,13 @@ class Dashboard extends Component {
             </main>
             <Footer />
           </div>
-        );
+        )
       default:
         return (
           <div className="app dashboard">
             <h1>Layout error</h1>
           </div>
-        );
+        )
     }
   }
 }

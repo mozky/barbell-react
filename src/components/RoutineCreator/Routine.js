@@ -1,31 +1,28 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { DropTarget, DragDropContext } from 'react-dnd';
-import HTML5Backend from 'react-dnd-html5-backend';
-import update from 'immutability-helper';
-import flow from 'lodash/flow';
-import ExerciseCard from './ExerciseCard';
-import SearchExercise from './SearchExercise';
-import * as Types from '../../types';
-import Api from '../../api';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import { DropTarget, DragDropContext } from 'react-dnd'
+import HTML5Backend from 'react-dnd-html5-backend'
+import update from 'immutability-helper'
+import flow from 'lodash/flow'
+import ExerciseCard from './ExerciseCard'
+import SearchExercise from './SearchExercise'
+import * as Types from '../../types'
 
 const cardTarget = {
   drop() {
   },
-};
+}
 
 class Routine extends Component {
   constructor(props) {
-    super(props);
-    this.moveExercise = this.moveExercise.bind(this);
-    this.findExercise = this.findExercise.bind(this);
-    this.updateExercise = this.updateExercise.bind(this);
-    this.saveRoutine = this.saveRoutine.bind(this);
-    this.removeExercise = this.removeExercise.bind(this);
-    this.handleNewExercise = this.handleNewExercise.bind(this);
+    super(props)
+    this.moveExercise = this.moveExercise.bind(this)
+    this.findExercise = this.findExercise.bind(this)
+    this.updateExercise = this.updateExercise.bind(this)
+    this.removeExercise = this.removeExercise.bind(this)
+    this.handleNewExercise = this.handleNewExercise.bind(this)
     this.state = {
       // IDEA: Get exercises list by websocket live from server, for now, get full list
-      exercisesList: null,
       exercises: [{
         id: 1,
         name: 'Run',
@@ -40,25 +37,9 @@ class Routine extends Component {
         recordFields: ['sets', 'reps', 'weight'],
         data: {}
       }],
-    };
+    }
   }
 
-  componentWillMount() {
-    Api.exerciseListGet().then((response) => {
-      let exercisesList = [];
-      JSON.parse(response).forEach(function(exercise) {
-        exercisesList.push({
-          value: exercise.id,
-          label: exercise.name
-        })
-      });
-      this.setState({
-        exercisesList,
-      })
-    }).catch((err) => {
-      console.log(err);
-    })
-  }
 
   handleNewExercise(selection) {
     this.setState(update(this.state, {
@@ -74,7 +55,7 @@ class Routine extends Component {
   }
 
   updateExercise(id, property, value) {
-    const { exercise, index } = this.findExercise(id);
+    const { exercise, index } = this.findExercise(id)
 
     this.setState(update(this.state, {
       exercises: {
@@ -92,7 +73,7 @@ class Routine extends Component {
   }
 
   moveExercise(id, atIndex) {
-    const { exercise, index } = this.findExercise(id);
+    const { exercise, index } = this.findExercise(id)
     this.setState(update(this.state, {
       exercises: {
         $splice: [
@@ -100,48 +81,34 @@ class Routine extends Component {
           [atIndex, 0, exercise],
         ],
       },
-    }));
+    }))
   }
 
   findExercise(id) {
-    const { exercises } = this.state;
-    const exercise = exercises.filter(c => c.id === id)[0];
+    const { exercises } = this.state
+    const exercise = exercises.filter(c => c.id === id)[0]
 
     return {
       exercise,
       index: exercises.indexOf(exercise),
-    };
+    }
   }
 
   removeExercise(id) {
-    const { index } = this.findExercise(id);
+    const { index } = this.findExercise(id)
     this.setState(update(this.state, {
       exercises: {
         $splice: [
           [index, 1]
         ]
       }
-    }));
-  }
-
-  saveRoutine() {
-    const request = {
-      user: 'moz',
-      type: 'simple',
-      routine: { exercises: this.state.exercises },
-
-    }
-    Api.routinePost(request).then((response) => {
-      console.log(response)
-    }).catch((err) => {
-      console.log(err);
-    })
+    }))
   }
 
   render() {
-    // const { type } = this.props.type;
-    const { connectDropTarget } = this.props;
-    const { exercises } = this.state;
+    // const { type } = this.props.type
+    const { connectDropTarget, exercisesList, saveRoutine } = this.props
+    const { exercises } = this.state
 
     return connectDropTarget(
       <div className='routine'>
@@ -161,18 +128,20 @@ class Routine extends Component {
         <SearchExercise
           id="add-exercise"
           handleChange={this.handleNewExercise}
-          exercises={this.state.exercisesList}
+          exercises={exercisesList}
         />
-        <button id="save-routine-button" type="button" onClick={this.saveRoutine}>Save Routine</button>
+        <button id="save-routine-button" type="button" onClick={() => saveRoutine({exercises})}>Save Routine</button>
       </div>
-    );
+    )
   }
 }
 
 Routine.propTypes = {
   type: PropTypes.string,
+  saveRoutine: PropTypes.func.isRequired,
+  exercisesList: PropTypes.array.isRequired,
   connectDropTarget: PropTypes.func.isRequired,
-};
+}
 
 // Until we have ES7 decorators, this way we can easily extend Routine with both functions
 export default flow(

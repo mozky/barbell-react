@@ -18,7 +18,7 @@ h2 {
 }
 
 .card-content {
-	padding: 1.4em;
+	padding: 2.4em 1.4em;
 }
 
 .card-content h2 {
@@ -31,35 +31,69 @@ h2 {
 	font-size: 95%;
 }
 
-img {
-  width: 100%;
-  height: auto;
+.header {
+  height: 15em;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: stretch;
+  justify-content: space-between;
+  color: white;
 }
 
- /*Flexbox styles */
-/*@media screen and (min-width: 40em) {
-  .cards {
-    margin-top: -1em;
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-  }
-
-  .card {
-    margin-bottom: 1em;
-    display: flex;
-    flex: 0 1 calc(50% - 0.5em);
-  }
+.header .left {
+  font-size: 2.5em;
+  display: flex;
+  align-items: stretch;
 }
 
-@media screen and (min-width: 60em) {
-  .cards {
-    margin-top: inherit;
-  }
+/* TODO: Investigar porque padding-top: 100% lo centra verticalmente.. */
+.header .left i {
+  cursor: pointer;
+  padding: 100% 0 0 1.5em;
+}
 
-  .card {
-    margin-bottom: 2em;
-    display: flex;
-    flex: 0 1 calc(33% - 0.5em);
-  }
-}*/
+.header .right {
+  display: flex;
+  align-items: stretch;
+  font-size: 2.5em;
+}
+
+.header .right i {
+  cursor: pointer;
+  padding: 100% 1.5em 0 0;
+}
+
+.header .center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-h1 {
+  line-height: 90%;
+  color: white;
+  font-size: 5em;
+}
+
+.card-h2 {
+  color: white;
+  font-size: 2em;
+}
+
+.card-h3 {
+  color: #BBB;
+  font-size: 1em;
+}
+
+.centered {
+  text-align: center;
+}
+
+.faded {
+  color: 255 255 255 0.4;
+}
+
+.faded p {
+  font-weight: lighter;
+}
