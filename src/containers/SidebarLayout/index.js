@@ -8,7 +8,7 @@ class SidebarLayout extends Component {
     return (
       <main className="centered">
         <div className="main-area">
-          <Sidebar username={this.props.username} isAdmin={this.props.isAdmin}/>
+          <Sidebar user={this.props.user} isAdmin={this.props.isAdmin}/>
           <div id="content">
             {this.props.children}
           </div>

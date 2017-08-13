@@ -8,12 +8,12 @@ class Sidebar extends Component {
   render() {
     return (
       <aside id="sidebar">
-        <UserStats />
+        <UserStats user={this.props.user}/>
         <br/>
         <ul id="side_menu">
           <NavLink exact to="/app" activeClassName="current">Home</NavLink>
           <br />
-          <NavLink exact to={"/app/user/" + this.props.username} activeClassName="current">My Page</NavLink>
+          <NavLink exact to={"/app/user/" + this.props.user.username} activeClassName="current">My Page</NavLink>
           <br />
           {this.props.isAdmin && <NavLink to="/app/exercises" activeClassName="current">Exercises</NavLink>}
         </ul>

@@ -38,7 +38,7 @@ class Dashboard extends Component {
         return (
           <div className="app dashboard">
             <Header username={this.props.user.username} handleLogout={this.props.handleLogout} />
-            <SidebarLayout username={this.props.user.username} isAdmin={this.props.admin}>
+            <SidebarLayout user={this.props.user} isAdmin={this.props.admin}>
               {routes}
             </SidebarLayout>
             <Footer />
