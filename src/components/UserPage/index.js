@@ -1,14 +1,13 @@
-import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
-import Api from '../../api';
+import React, { Component } from 'react'
+import { Redirect } from 'react-router-dom'
+import Api from '../../api'
 
 // TODO: Currently this calls the api and rendirects to 404 if no user found..
 // This should be done on a container, so we dont validate anything HERE
 
-class UserPage extends Component {
+export default class UserPage extends Component {
   constructor(props) {
     super(props)
-
     this.state = {
       urlParam: props.match.params.username,
       user: {
@@ -34,7 +33,7 @@ class UserPage extends Component {
         user: user
       })
     }).catch((err) => {
-      console.log(err);
+      console.log(err)
     })
   }
 
@@ -78,11 +77,9 @@ class UserPage extends Component {
             {userRoutines}
           </ul>
         </div>
-      );
+      )
     }
 
 
   }
 }
-
-export default UserPage;
