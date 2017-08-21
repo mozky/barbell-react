@@ -101,7 +101,6 @@ class Exercises extends Component {
     return this.state.exercises.map((exercise) => {
       return (
         <tr key={exercise.get_Id()}>
-          <td data-label="_id">{exercise.get_Id()}</td>
           <td data-label="id"
             onClick={(e) => {
               e.target.contentEditable = true;
@@ -195,7 +194,6 @@ class Exercises extends Component {
         <table>
           <thead>
             <tr>
-              <th scope="col">_id</th>
               <th scope="col">id</th>
               <th scope="col">Name</th>
               <th scope="col">Actions</th>

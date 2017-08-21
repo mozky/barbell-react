@@ -1,5 +1,5 @@
 import 'whatwg-fetch'
-import { ValidateToken } from '../helpers'
+import { ValidateToken, RemoveToken } from '../helpers'
 
 const API_HOST = "http://localhost:10010/"
 
@@ -123,6 +123,9 @@ function userGet(username) {
         console.log('GET USER', res.ok, res.status, res.statusText)
         if (res.status === 200) {
           resolve(res.text())
+        } else if (res.status === 403) {
+          console.log('token expired or user revoked access')
+          RemoveToken()
         } else {
           reject(res.status)
         }
@@ -279,6 +282,29 @@ function routinePost(request) {
   })
 }
 
+function routineGet(routineId) {
+  return new Promise(function(resolve, reject) {
+    let headers = getValidToken()
+    fetch(API_HOST + 'routine/' + routineId, {
+      headers
+    })
+      .then(res => {
+        console.log('GET ROUTINE', res.ok, res.status, res.statusText)
+        if (res.status === 200) {
+          resolve(res.text())
+        } else if (res.status === 403) {
+          console.log('token expired or user revoked access')
+          RemoveToken()
+        } else {
+          reject(res.status)
+        }
+      }).catch(err => {
+        console.log(err)
+        reject(err)
+      })
+  })
+}
+
 function subscriptionPost(request) {
   return new Promise(function(resolve, reject) {
     const args = {
@@ -319,5 +345,6 @@ export default  {
     exerciseDelete,
     exerciseSubscribe,
     routinePost,
+    routineGet,
     subscriptionPost
 }

@@ -1,8 +1,10 @@
 import RoutineCreator from '../../components/RoutineCreator'
+import RoutineViewer from '../../components/RoutineViewer'
 import img from '../../images/background.png'
 import React, { Component } from 'react'
 import Card from '../../components/Card'
 import update from 'immutability-helper'
+import { Link } from 'react-router-dom'
 import Multimap from 'multimap'
 import Api from '../../api'
 import './Calendar.css'
@@ -127,7 +129,6 @@ export default class Calendar extends Component {
 
   render() {
     const locale = "en-us"
-    const today = new Date()
     const now = this.state.activeDay
     const date = now.getDate()
     const weekday = now.toLocaleString(locale, { weekday: "long" })
@@ -142,30 +143,12 @@ export default class Calendar extends Component {
       content = this.state.events.get(now.toDateString()).map(event => {
         switch(event.type) {
           case 'subscription':
-            const subscription = event.data
-            // Conditional render subscription based on date, to see if it is expired
-            if (now.toDateString() === today.toDateString()) {
-              return (
-                <div className="centered faded" key={subscription._id}>
-                  <h2>GO WORKOUT {subscription.routine.name}</h2>
-                  { JSON.stringify(subscription.routine) }
-                </div>
-              )
-            } else if (now < today) {
-              return (
-                <div className="centered faded" key={subscription._id}>
-                  <h2>Missed subscription {subscription.routine.name}</h2>
-                  { JSON.stringify(subscription.routine) }
-                </div>
-              )
-            } else {
-              return (
-                <div className="centered faded" key={subscription._id}>
-                  <h2>Subscription {subscription.routine.name}</h2>
-                  { JSON.stringify(subscription.routine) }
-                </div>
-              )
-            }
+            return (
+              <div key={event.data._id}>
+                <RoutineViewer subscription={event.data} activeDay={now}/>
+                <Link to={"/app/trainer/" + event.data.routine._id}><button>Start Routine</button></Link>
+              </div>
+            )
           case 'record':
             const record = event.data
             console.log(record)
