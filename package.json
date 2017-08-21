@@ -38,6 +38,7 @@
     "eject": "react-scripts eject"
   },
   "devDependencies": {
-    "jest-cli": "^20.0.4"
+    "jest-cli": "^20.0.4",
+    "moment": "^2.18.1"
   }
 }

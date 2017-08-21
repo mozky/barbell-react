@@ -4,6 +4,7 @@ import img from '../../images/background.png'
 import React, { Component } from 'react'
 import Card from '../../components/Card'
 import update from 'immutability-helper'
+import { Link } from 'react-router-dom'
 import Multimap from 'multimap'
 import Api from '../../api'
 import './Calendar.css'
@@ -142,7 +143,12 @@ export default class Calendar extends Component {
       content = this.state.events.get(now.toDateString()).map(event => {
         switch(event.type) {
           case 'subscription':
-            return <RoutineViewer key={event.data._id} subscription={event.data} activeDay={now}/>
+            return (
+              <div key={event.data._id}>
+                <RoutineViewer subscription={event.data} activeDay={now}/>
+                <Link to={"/app/trainer/" + event.data.routine._id}><button>Start Routine</button></Link>
+              </div>
+            )
           case 'record':
             const record = event.data
             console.log(record)

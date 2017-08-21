@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Route } from 'react-router-dom'
 import { AdminRoute, PropsRoute } from '../Helpers'
+import Trainer from '../../components/Trainer'
 import UserPage from '../../components/UserPage'
 import Header from '../../components/Header'
 import Footer from '../../components/Footer'
@@ -25,6 +26,7 @@ class Dashboard extends Component {
           <Route exact path={`${this.props.match.url}/404`} render={() => <div>TODO: 404 page</div>} />
           <Route exact path={`${this.props.match.url}/about`} component={About}/>
           <Route exact path={`${this.props.match.url}/user/:username`} component={UserPage}/>
+          <Route exact path={`${this.props.match.url}/trainer/:routineId`} component={Trainer}/>
           <AdminRoute exact path={`${this.props.match.url}/exercises`}
             component={Exercises}
             redirectTo={"/app"}
