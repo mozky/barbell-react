@@ -30,8 +30,8 @@ export default class Countdown extends Component {
   startCounter() {
     this.setState({
       status: 'running',
-    });
-    this.ticker = setInterval(this.tick, 1000);
+    })
+    this.ticker = setInterval(this.tick, 1000)
   }
 
   pauseCounter() {
@@ -42,7 +42,14 @@ export default class Countdown extends Component {
   }
 
   componentWillUnmount() {
-    clearInterval(this.ticker);
+    clearInterval(this.ticker)
+    // We send the data back to the main workout componentent
+    console.log(moment.duration(this.props.time).subtract(this.state.duration))
+    this.props.saveExerciseData({
+      id: this.props.exercise.id,
+      name: this.props.exercise.name,
+      time: moment.duration(this.props.time).subtract(this.state.duration)._data
+    })
   }
 
   render() {
@@ -63,6 +70,7 @@ export default class Countdown extends Component {
       default:
         buttonAction = <div>Oops</div>
     }
+    // Maybe use https://github.com/jsmreese/moment-duration-format to format moment.js durations
     return (
       <div>
         <div>

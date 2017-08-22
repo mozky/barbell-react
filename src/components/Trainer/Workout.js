@@ -1,16 +1,23 @@
 import React, { Component } from 'react'
+import WorkoutSummary from './WorkoutSummary'
+import update from 'immutability-helper'
 import Countdown from './Countdown'
+import Api from '../../api'
 
 export default class Workout extends Component {
   constructor(props) {
     super(props)
+    this.handleExerciseSave = this.handleExerciseSave.bind(this)
+    this.hasNextExercise = this.hasNextExercise.bind(this)
+    this.nextExercise = this.nextExercise.bind(this)
+    this.saveWorkout = this.saveWorkout.bind(this)
     if (this.props.routine.data.exercises[0]) {
       this.state = {
-        currentExercise: 0
+        currentExercise: 0,
+        workoutData: [],
+        workoutFinished: false
       }
     }
-    this.nextExercise = this.nextExercise.bind(this)
-    this.hasNextExercise = this.hasNextExercise.bind(this)
   }
 
   nextExercise() {
@@ -25,6 +32,29 @@ export default class Workout extends Component {
     return this.props.routine.data.exercises[this.state.currentExercise + 1]
   }
 
+  handleExerciseSave(data) {
+    this.setState(update(this.state, {
+      workoutData: {
+        $push: [data]
+      }
+    }))
+  }
+
+  saveWorkout() {
+    const request = {
+      userId: this.props.userId,
+      routineId: this.props.routine._id,
+      recordData: this.state.workoutData,
+      date: new Date()
+    }
+    Api.recordPost(request).then((response) => {
+      console.log(response)
+    }).catch((err) => {
+      console.log(err)
+    })
+
+  }
+
   render() {
     const exercise = this.props.routine.data.exercises[this.state.currentExercise]
 
@@ -32,7 +62,7 @@ export default class Workout extends Component {
     switch (exercise.type) {
       case "time":
         Exercise = (
-          <Countdown time={exercise.data.time} />
+          <Countdown exercise={exercise} time={exercise.data.time} saveExerciseData={this.handleExerciseSave}/>
         )
         break
       default:
@@ -50,7 +80,16 @@ export default class Workout extends Component {
       )
     } else {
       Actions = (
-        <button>END WORKOUT</button>
+        <button onClick={() => this.setState({workoutFinished: true})}>WORKOUT SUMMARY</button>
+      )
+    }
+
+    if (this.state.workoutFinished) {
+      return (
+        <div>
+          <WorkoutSummary routine={this.props.routine} workoutData={this.state.workoutData}/>
+          <button onClick={this.saveWorkout}>Save</button>
+        </div>
       )
     }
 

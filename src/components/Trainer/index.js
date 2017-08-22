@@ -58,7 +58,7 @@ export default class Trainer extends Component {
       )
     } else {
         return (
-          <Workout routine={this.state.routine}/>
+          <Workout routine={this.state.routine} userId={this.props.userId}/>
         )
     }
 

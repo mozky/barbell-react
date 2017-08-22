@@ -334,6 +334,40 @@ function subscriptionPost(request) {
   })
 }
 
+function recordPost(request) {
+  return new Promise(function (resolve, reject) {
+    // TODO: Validate the fields? later...
+    const args = {
+      'user': request.userId,
+      'date': request.date,
+      'data': request.recordData,
+      'routine': request.routineId,
+    }
+
+    console.log('request data', args)
+
+    const headers = getValidToken()
+    headers['Content-Type'] = 'application/json'
+
+    fetch(API_HOST + 'record', {
+      method: 'POST',
+      headers,
+      body: JSON.stringify(args)
+    })
+      .then(res => {
+        console.log('POST RECORD', res.ok, res.status, res.statusText)
+        if (res.status !== 200) {
+          reject(res.status)
+        }
+        resolve(res.text())
+      }).catch(err => {
+        console.log(err)
+        reject(err)
+      })
+
+  })
+}
+
 export default  {
     health,
     login,
@@ -346,5 +380,6 @@ export default  {
     exerciseSubscribe,
     routinePost,
     routineGet,
-    subscriptionPost
+    subscriptionPost,
+    recordPost
 }
