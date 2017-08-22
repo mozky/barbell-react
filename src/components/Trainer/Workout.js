@@ -59,18 +59,16 @@ export default class Workout extends Component {
     const exercise = this.props.routine.data.exercises[this.state.currentExercise]
 
     let Exercise
-    switch (exercise.type) {
-      case "time":
+    if (exercise.recordFields.indexOf("time") > -1) {
         Exercise = (
           <Countdown exercise={exercise} time={exercise.data.time} saveExerciseData={this.handleExerciseSave}/>
         )
-        break
-      default:
-        Exercise = (
-          <div>
-            TODO: Create handler for this exercise type...
-          </div>
-        )
+    } else {
+      Exercise = (
+        <div>
+          TODO: Create handler for this exercise type...
+        </div>
+      )
     }
 
     let Actions
