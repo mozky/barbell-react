@@ -146,7 +146,7 @@ export default class Calendar extends Component {
             return (
               <div key={event.data._id}>
                 <RoutineViewer subscription={event.data} activeDay={now}/>
-                <Link to={"/app/trainer/" + event.data.routine._id}><button>Start Routine</button></Link>
+                <Link to={"/app/trainer/" + event.data._id}><button>Start Routine</button></Link>
               </div>
             )
           case 'record':

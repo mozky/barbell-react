@@ -46,7 +46,7 @@ export default class Workout extends Component {
       userId: this.props.userId,
       routineId: this.props.routine._id,
       recordData: this.state.workoutData,
-      date: new Date()
+      date: this.props.date
     }
     Api.recordPost(request).then((response) => {
       console.log(response)

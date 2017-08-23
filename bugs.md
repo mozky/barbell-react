@@ -1,2 +1,3 @@
 # File to keep track of known bugs
-- Using Date.now() for workouts saving, so they are saving to 'today', must implement subscriptions
+- Records on the calendar are one day ahead
+- Sometimes server returns 304 for user.get which fucks the front end

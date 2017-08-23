@@ -305,6 +305,29 @@ function routineGet(routineId) {
   })
 }
 
+function subscriptionGet(subscriptionId) {
+  return new Promise(function(resolve, reject) {
+    let headers = getValidToken()
+    fetch(API_HOST + 'subscription/' + subscriptionId, {
+      headers
+    })
+      .then(res => {
+        console.log('GET SUBSCRIPTION', res.ok, res.status, res.statusText)
+        if (res.status === 200) {
+          resolve(res.text())
+        } else if (res.status === 403) {
+          console.log('token expired or user revoked access')
+          RemoveToken()
+        } else {
+          reject(res.status)
+        }
+      }).catch(err => {
+        console.log(err)
+        reject(err)
+      })
+  })
+}
+
 function subscriptionPost(request) {
   return new Promise(function(resolve, reject) {
     const args = {
@@ -380,6 +403,7 @@ export default  {
     exerciseSubscribe,
     routinePost,
     routineGet,
+    subscriptionGet,
     subscriptionPost,
     recordPost
 }

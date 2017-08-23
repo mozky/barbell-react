@@ -26,7 +26,7 @@ class Dashboard extends Component {
           <Route exact path={`${this.props.match.url}/404`} render={() => <div>TODO: 404 page</div>} />
           <Route exact path={`${this.props.match.url}/about`} component={About}/>
           <Route exact path={`${this.props.match.url}/user/:username`} component={UserPage}/>
-          <PropsRoute exact path={`${this.props.match.url}/trainer/:routineId`} component={Trainer} userId={this.props.user._id}/>
+          <PropsRoute exact path={`${this.props.match.url}/trainer/:subscriptionId`} component={Trainer} user={this.props.user}/>
           <AdminRoute exact path={`${this.props.match.url}/exercises`}
             component={Exercises}
             redirectTo={"/app"}
