@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import WorkoutSummary from './WorkoutSummary'
+import RepsExercise from './RepsExercise'
 import update from 'immutability-helper'
 import Countdown from './Countdown'
 import Api from '../../api'
@@ -60,9 +61,13 @@ export default class Workout extends Component {
 
     let Exercise
     if (exercise.recordFields.indexOf("time") > -1) {
-        Exercise = (
-          <Countdown exercise={exercise} time={exercise.data.time} saveExerciseData={this.handleExerciseSave}/>
-        )
+      Exercise = (
+        <Countdown exercise={exercise} time={exercise.data.time} saveExerciseData={this.handleExerciseSave}/>
+      )
+    } else if (exercise.recordFields.indexOf("reps") > -1) {
+      Exercise = (
+        <RepsExercise exercise={exercise} saveExerciseData={this.handleExerciseSave}/>
+      )
     } else {
       Exercise = (
         <div>
