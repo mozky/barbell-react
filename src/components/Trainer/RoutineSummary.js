@@ -3,7 +3,6 @@ import React, { Component } from 'react'
 export default class  RoutineSummary extends Component {
   render() {
     const { routine } = this.props
-    console.log(routine.data.exercises);
     const exercises = routine.data.exercises.map( exercise => {
       let fieldsItems = ''
       if (exercise.data) {

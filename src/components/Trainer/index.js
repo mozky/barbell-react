@@ -8,28 +8,27 @@ export default class Trainer extends Component {
     super(props)
     this.startWorkout = this.startWorkout.bind(this)
 
+    this.subscriptionId = props.match.params.subscriptionId
+
     this.state = {
       workingOut: false,
-      routineId: props.match.params.routineId,
-      routine: {
-        name: 'null',
-        data: [],
-        creator: 'null',
-        category: 'null',
-        type: 'null'
+      subscription: {
+        routine: 'null',
+        date: 'null',
+        user: 'null'
       }
     }
   }
 
   // TODO: Check if this is the logged in user page, so we can skip this query and change the page layout
   componentDidMount() {
-    Api.routineGet(this.state.routineId).then((response) => {
-      let routine = 'null'
-      if (JSON.parse(response).routine) {
-        routine = JSON.parse(response).routine
+    Api.subscriptionGet(this.subscriptionId).then((response) => {
+      let subscription = 'null'
+      if (JSON.parse(response).subscription) {
+        subscription = JSON.parse(response).subscription
       }
       this.setState({
-        routine: routine
+        subscription: subscription
       })
     }).catch((err) => {
       console.log(err)
@@ -43,22 +42,24 @@ export default class Trainer extends Component {
   }
 
   render() {
-    if (this.state.routine.name === 'null') {
+    const { routine, date, _id }  = this.state.subscription
+
+    if (routine === 'null') {
       return (
-        <div>Loading routine...</div>
+        <div>Loading...</div>
       )
     }
 
     if (!this.state.workingOut) {
       return (
         <div>
-          <RoutineSummary routine={this.state.routine}/>
+          <RoutineSummary routine={routine}/>
           <button onClick={this.startWorkout}>Start workout</button>
         </div>
       )
     } else {
         return (
-          <Workout routine={this.state.routine}/>
+          <Workout date={date} routine={routine} eventId={_id} userId={this.props.user._id}/>
         )
     }
 

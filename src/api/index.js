@@ -305,6 +305,29 @@ function routineGet(routineId) {
   })
 }
 
+function subscriptionGet(subscriptionId) {
+  return new Promise(function(resolve, reject) {
+    let headers = getValidToken()
+    fetch(API_HOST + 'subscription/' + subscriptionId, {
+      headers
+    })
+      .then(res => {
+        console.log('GET SUBSCRIPTION', res.ok, res.status, res.statusText)
+        if (res.status === 200) {
+          resolve(res.text())
+        } else if (res.status === 403) {
+          console.log('token expired or user revoked access')
+          RemoveToken()
+        } else {
+          reject(res.status)
+        }
+      }).catch(err => {
+        console.log(err)
+        reject(err)
+      })
+  })
+}
+
 function subscriptionPost(request) {
   return new Promise(function(resolve, reject) {
     const args = {
@@ -334,6 +357,66 @@ function subscriptionPost(request) {
   })
 }
 
+function subscriptionPatch(subscriptionId, updates) {
+  return new Promise(function (resolve, reject) {
+    // TODO: Validate the updates? later...
+
+    const headers = getValidToken()
+    headers['Content-Type'] = 'application/json'
+
+    fetch(API_HOST + 'subscription/' + subscriptionId, {
+      method: 'PATCH',
+      headers,
+      body: JSON.stringify(updates)
+    })
+      .then(res => {
+        console.log('PATCH SUBSCRIPTION', res.ok, res.status, res.statusText)
+        if (res.status !== 200) {
+          reject(res.status)
+        }
+        resolve(res.text())
+      }).catch(err => {
+        console.log(err)
+        reject(err)
+      })
+
+  })
+}
+
+function recordPost(request) {
+  return new Promise(function (resolve, reject) {
+    // TODO: Validate the fields? later...
+    const args = {
+      'user': request.userId,
+      'date': request.date,
+      'data': request.recordData,
+      'routine': request.routineId,
+    }
+
+    console.log('request data', args)
+
+    const headers = getValidToken()
+    headers['Content-Type'] = 'application/json'
+
+    fetch(API_HOST + 'record', {
+      method: 'POST',
+      headers,
+      body: JSON.stringify(args)
+    })
+      .then(res => {
+        console.log('POST RECORD', res.ok, res.status, res.statusText)
+        if (res.status !== 200) {
+          reject(res.status)
+        }
+        resolve(res.text())
+      }).catch(err => {
+        console.log(err)
+        reject(err)
+      })
+
+  })
+}
+
 export default  {
     health,
     login,
@@ -346,5 +429,8 @@ export default  {
     exerciseSubscribe,
     routinePost,
     routineGet,
-    subscriptionPost
+    subscriptionGet,
+    subscriptionPost,
+    subscriptionPatch,
+    recordPost
 }

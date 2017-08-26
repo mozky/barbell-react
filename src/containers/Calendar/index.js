@@ -1,6 +1,7 @@
 import RoutineCreator from '../../components/RoutineCreator'
 import RoutineViewer from '../../components/RoutineViewer'
 import img from '../../images/background.png'
+import moment from 'moment'
 import React, { Component } from 'react'
 import Card from '../../components/Card'
 import update from 'immutability-helper'
@@ -21,7 +22,7 @@ export default class Calendar extends Component {
     this.createSubscription = this.createSubscription.bind(this)
     this.closeRoutineCreator = this.closeRoutineCreator.bind(this)
     this.state = {
-      activeDay: new Date(),
+      activeDay: moment().format('Y-MM-DD'),
       events: this.createEvents(this.props.user),
       creatingRoutine: false,
     }
@@ -30,24 +31,11 @@ export default class Calendar extends Component {
   createEvents(user) {
     let events = new Multimap()
 
-    // Adds records to events
-    if (user.records) {
-      user.records.forEach(record => {
-        events.set(
-          new Date(record.date).toDateString(),
-          {
-            type: 'record',
-            data: record
-          }
-        )
-      })
-    }
-
     // Adds subscriptions to events
     if (user.subscriptions) {
       user.subscriptions.forEach(subscription => {
         events.set(
-          new Date(subscription.date).toDateString(),
+          subscription.date,
           {
             type: 'subscription',
             data: subscription
@@ -60,19 +48,19 @@ export default class Calendar extends Component {
   }
 
   addDay() {
-    const oldDate = this.state.activeDay;
-    this.updateDate(new Date(oldDate.setDate(oldDate.getDate() + 1)))
+    const oldDate = this.state.activeDay
+    this.updateDate(moment(oldDate).add(1, 'day'))
   }
 
   subtractDay() {
-    const oldDate = this.state.activeDay;
-    this.updateDate(new Date(oldDate.setDate(oldDate.getDate() - 1)))
+    const oldDate = this.state.activeDay
+    this.updateDate(moment(oldDate).subtract(1, 'day'))
   }
 
   updateDate(newDate) {
     this.setState(update(this.state, {
       activeDay: {
-        $set: newDate
+        $set: newDate.format('Y-MM-DD')
       }
     }))
   }
@@ -128,34 +116,36 @@ export default class Calendar extends Component {
   }
 
   render() {
-    const locale = "en-us"
-    const now = this.state.activeDay
-    const date = now.getDate()
-    const weekday = now.toLocaleString(locale, { weekday: "long" })
-    const monthYear = `${now.toLocaleString(locale, { month: "long" })}, ${now.getFullYear()}`
+    const now = moment(this.state.activeDay)
+    const date = now.date()
+    const weekday = now.format('dddd')
+    const monthYear = now.format('MMMM, Y')
     const leftArrow = <i className="fa fa-chevron-left" aria-hidden="true" onClick={this.subtractDay}></i>
     const rightArrow = <i className="fa fa-chevron-right" aria-hidden="true" onClick={this.addDay}></i>
 
     let content
 
     // Search the events multimap for events on the selected date
-    if (this.state.events.has(now.toDateString())) {
-      content = this.state.events.get(now.toDateString()).map(event => {
+    if (this.state.events.has(now.format('Y-MM-DD'))) {
+      content = this.state.events.get(now.format('Y-MM-DD')).map(event => {
+        console.log(event)
         switch(event.type) {
           case 'subscription':
+            // This subscription has a record attached, display de record
+            if (event.data.record) {
+                return (
+                  <div className="centered faded" key={event.data.record._id}>
+                    <h2>Record for {event.data.routine.name}</h2>
+                    { JSON.stringify(event.data.record) }
+                  </div>
+                )
+            }
+
+            // No record found, displaying routine
             return (
               <div key={event.data._id}>
                 <RoutineViewer subscription={event.data} activeDay={now}/>
-                <Link to={"/app/trainer/" + event.data.routine._id}><button>Start Routine</button></Link>
-              </div>
-            )
-          case 'record':
-            const record = event.data
-            console.log(record)
-            return (
-              <div className="centered faded" key={record._id}>
-                <h2>Record for {record.routine.name}</h2>
-                { JSON.stringify(record) }
+                <Link to={"/app/trainer/" + event.data._id}><button>Start Routine</button></Link>
               </div>
             )
           default:
