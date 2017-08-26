@@ -357,6 +357,32 @@ function subscriptionPost(request) {
   })
 }
 
+function subscriptionPatch(subscriptionId, updates) {
+  return new Promise(function (resolve, reject) {
+    // TODO: Validate the updates? later...
+
+    const headers = getValidToken()
+    headers['Content-Type'] = 'application/json'
+
+    fetch(API_HOST + 'subscription/' + subscriptionId, {
+      method: 'PATCH',
+      headers,
+      body: JSON.stringify(updates)
+    })
+      .then(res => {
+        console.log('PATCH SUBSCRIPTION', res.ok, res.status, res.statusText)
+        if (res.status !== 200) {
+          reject(res.status)
+        }
+        resolve(res.text())
+      }).catch(err => {
+        console.log(err)
+        reject(err)
+      })
+
+  })
+}
+
 function recordPost(request) {
   return new Promise(function (resolve, reject) {
     // TODO: Validate the fields? later...
@@ -405,5 +431,6 @@ export default  {
     routineGet,
     subscriptionGet,
     subscriptionPost,
+    subscriptionPatch,
     recordPost
 }

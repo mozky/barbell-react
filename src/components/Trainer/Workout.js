@@ -49,7 +49,14 @@ export default class Workout extends Component {
       date: this.props.date
     }
     Api.recordPost(request).then((response) => {
-      console.log(response)
+      response = JSON.parse(response)
+      if (response && response.body && response.body.recordId) {
+        Api.subscriptionPatch(this.props.eventId, {
+          record: response.body.recordId
+        }).then((response) => {
+          console.log('Workout saved correctly...')
+        })
+      }
     }).catch((err) => {
       console.log(err)
     })

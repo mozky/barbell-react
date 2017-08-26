@@ -42,7 +42,7 @@ export default class Trainer extends Component {
   }
 
   render() {
-    const { routine, date }  = this.state.subscription
+    const { routine, date, _id }  = this.state.subscription
 
     if (routine === 'null') {
       return (
@@ -59,7 +59,7 @@ export default class Trainer extends Component {
       )
     } else {
         return (
-          <Workout date={date} routine={routine} userId={this.props.user._id}/>
+          <Workout date={date} routine={routine} eventId={_id} userId={this.props.user._id}/>
         )
     }
 
