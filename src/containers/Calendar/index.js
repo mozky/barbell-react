@@ -21,10 +21,46 @@ export default class Calendar extends Component {
     this.routineCreator = this.routineCreator.bind(this)
     this.createSubscription = this.createSubscription.bind(this)
     this.closeRoutineCreator = this.closeRoutineCreator.bind(this)
+    this.handleKeyboardEvent = this.handleKeyboardEvent.bind(this)
+    this.attachKeyboardArrowsKeys = this.attachKeyboardArrowsKeys.bind(this)
     this.state = {
       activeDay: moment().format('Y-MM-DD'),
       events: this.createEvents(this.props.user),
       creatingRoutine: false,
+    }
+  }
+
+  componentDidMount() {
+    this.attachKeyboardArrowsKeys()
+  }
+
+  attachKeyboardArrowsKeys() {
+    if (window.addEventListener) {
+      document.addEventListener('keydown', this.handleKeyboardEvent, false);
+    }
+    else {
+      document.attachEvent('onkeydown', this.handleKeyboardEvent);
+    }
+  }
+
+  handleKeyboardEvent(evt) {
+    const Key = {
+      LEFT:   37,
+      UP:     38,
+      RIGHT:  39,
+      DOWN:   40
+    }
+
+    if (!evt) {evt = window.event;} // for old IE compatible
+    var keycode = evt.keyCode || evt.which; // also for cross-browser compatible
+    switch (keycode) {
+      case Key.LEFT:
+        this.subtractDay()
+        break;
+      case Key.RIGHT:
+        this.addDay()
+        break;
+      default:
     }
   }
 
